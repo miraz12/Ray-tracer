@@ -5,7 +5,6 @@
 #ifndef RAY_TRACER_BASE_H
 #define RAY_TRACER_BASE_H
 
-#include <zconf.h>
 
 class Triangle;
 

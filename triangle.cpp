@@ -12,5 +12,6 @@ Triangle::~Triangle() {}
 bool Triangle::RayInstersection(Ray arg)
 {
     //TODO: M¨oller-Trumbore algorithm
+    return false;
 }
 
