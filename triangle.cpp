@@ -15,3 +15,10 @@ bool Triangle::RayInstersection(Ray arg)
     return false;
 }
 
+void Triangle::SetTriangle(Vertex v1, Vertex v2, Vertex v3)
+{
+    tri[0] = v1;
+    tri[1] = v2;
+    tri[2] = v3;
+}
+

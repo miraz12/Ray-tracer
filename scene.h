@@ -15,6 +15,7 @@ public:
 
 private:
     Triangle scene[24];
+    Vertex vertexlist[7];
 };
 
 

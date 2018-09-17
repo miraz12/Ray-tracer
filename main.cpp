@@ -1,9 +1,9 @@
 #include <iostream>
-#include "triangle.h"
+#include "scene.h"
 
 int main() {
     std::cout << "Hello, World!" << std::endl;
-    Triangle* test = new Triangle();
+    Scene* test = new Scene();
 
     delete(test);
 

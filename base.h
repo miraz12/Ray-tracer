@@ -10,6 +10,23 @@ class Triangle;
 
 struct Vertex
 {
+    Vertex(){};
+
+    Vertex(float ix, float iy, float iz)
+    {
+        x = ix;
+        y = iy;
+        z = iz;
+        w = 1.f;
+    }
+    Vertex(float ix, float iy, float iz, float iw)
+    {
+        x = ix;
+        y = iy;
+        z = iz;
+        w = iw;
+    }
+
     float x{0}, y{0}, z{0}, w{1};
 };
 
