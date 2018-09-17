@@ -2,7 +2,7 @@
 // Created by shaggy on 9/17/18.
 //
 
-#include "Triangle.h"
+#include "triangle.h"
 
 
 Triangle::Triangle() {}

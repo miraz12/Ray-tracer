@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Triangle.h"
+#include "triangle.h"
 
 int main() {
     std::cout << "Hello, World!" << std::endl;
