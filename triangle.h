@@ -11,7 +11,7 @@
 class Triangle {
 public:
     Triangle();
-    virtual ~Triangle();
+    ~Triangle();
 
     bool RayInstersection(Ray arg);
     void SetTriangle(Vertex v1, Vertex v2, Vertex v3);

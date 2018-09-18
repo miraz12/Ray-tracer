@@ -6,6 +6,7 @@
 #define RAY_TRACER_CAMERA_H
 
 #include "base.h"
+#include "scene.h"
 
 struct Pixel
 {
@@ -26,6 +27,8 @@ private:
     int eyeChoice = 0;
 
     Pixel screen[800][800];
+
+    Scene scene; 
 
 };
 

@@ -1,11 +1,11 @@
 #include <iostream>
-#include "scene.h"
+#include "camera.h"
 
 int main() {
     std::cout << "Hello, World!" << std::endl;
-    Scene* test = new Scene();
-
+    Camera* test = new Camera();
+    test->Render();
+    test->CreateImage();
     delete(test);
-
     return 0;
 }

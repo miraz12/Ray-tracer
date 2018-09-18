@@ -11,7 +11,7 @@ class Scene {
 public:
     Scene();
     ~Scene();
-    void FindInstersections(Ray arg);
+    void FindInstersections(Ray* arg);
 
 private:
     Triangle scene[24];

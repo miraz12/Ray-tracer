@@ -8,17 +8,17 @@ Triangle::Triangle() {}
 
 Triangle::~Triangle() {}
 
-bool Triangle::RayInstersection(Ray arg)
+bool Triangle::RayInstersection(Ray* arg)
 {
     const float EPSILON = 0.0000001;
-    Vertex vertex0;
-    Vertex vertex1;
-    Vertex vertex2;
+    Vertex vertex0 = tri[0];
+    Vertex vertex1 = tri[1];
+    Vertex vertex2 = tri[2];
     glm::vec3 edge1, edge2, h, s, q;
     float a, f, u, v;
 
     Direction rayDir;
-    rayDir.dir = arg.start.vertex - arg.end.vertex;
+    rayDir.dir = arg->start.vertex - arg->end.vertex;
     edge1 = vertex1.vertex - vertex0.vertex;
     edge2 = vertex2.vertex - vertex0.vertex;
 
@@ -28,7 +28,7 @@ bool Triangle::RayInstersection(Ray arg)
     if (a > -EPSILON && a < EPSILON)
         return false;
     f = 1 / a;
-    s = arg.start.vertex - vertex0.vertex;
+    s = arg->start.vertex - vertex0.vertex;
     u = f * glm::dot(s, h);
     if (u < 0.0 || u > 1.0)
         return false;
@@ -41,9 +41,10 @@ bool Triangle::RayInstersection(Ray arg)
     if (t > EPSILON) // ray intersection
     {
         //Compare if the new intersection is closer to the origin of the ray then the previous one. If so switch to this triangle.
-        glm::vec4 intersection = arg.start.vertex + glm::vec4(rayDir.dir * t, 1.0f);
-        arg.hitTri = this;
-        arg.end.vertex = intersection;
+        glm::vec4 intersection = arg->start.vertex + glm::vec4(rayDir.dir * t, 1.0f);
+        arg->hitTri = this;
+        arg->end.vertex = intersection;
+        arg->color = color;
         return true;
     }
     else // This means that there is a line intersection but not a ray intersection.
@@ -55,5 +56,12 @@ void Triangle::SetTriangle(Vertex v1, Vertex v2, Vertex v3)
     tri[0] = v1;
     tri[1] = v2;
     tri[2] = v3;
+}
+
+void Triangle::SetColor(int r, int g, int b)
+{
+    color.color.x = r;
+    color.color.y = g;
+    color.color.z = b;
 }
 

@@ -30,7 +30,7 @@ struct Direction
 
 struct ColorDbl
 {
-    glm::vec3 color = glm::vec3(0.0f, 0.0f, 0.0f);
+    glm::vec3 color = glm::vec3(255.0f, 255.0f, 255.0f);
 };
 
 struct Ray
