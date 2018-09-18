@@ -66,5 +66,8 @@ Scene::~Scene() {}
 
 void Scene::FindInstersections(Ray arg)
 {
-    //TODO: Call RayIntersect(Ray arg) on all triangles and find intersections.
+    for (int i = 0; i < 24; ++i)
+    {
+        scene[i].RayInstersection(arg);
+    }
 }

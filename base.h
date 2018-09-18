@@ -4,7 +4,7 @@
 
 #ifndef RAY_TRACER_BASE_H
 #define RAY_TRACER_BASE_H
-
+#include <glm/glm.hpp> 
 
 class Triangle;
 
@@ -14,30 +14,23 @@ struct Vertex
 
     Vertex(float ix, float iy, float iz)
     {
-        x = ix;
-        y = iy;
-        z = iz;
-        w = 1.f;
+        vertex = glm::vec4(ix, iy, iz, 1.0f);
     }
     Vertex(float ix, float iy, float iz, float iw)
     {
-        x = ix;
-        y = iy;
-        z = iz;
-        w = iw;
+        vertex = glm::vec4(ix, iy, iz, iw);
     }
-
-    float x{0}, y{0}, z{0}, w{1};
+    glm::vec4 vertex = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 };
 
 struct Direction
 {
-    float x{0}, y{0}, z{0};
+    glm::vec3 dir = glm::vec3(0.0f, 0.0f, 0.0f);
 };
 
 struct ColorDbl
 {
-    double r{0}, g{0},b{0};
+    glm::vec3 color = glm::vec3(0.0f, 0.0f, 0.0f);
 };
 
 struct Ray
