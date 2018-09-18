@@ -13,8 +13,9 @@ public:
     Triangle();
     ~Triangle();
 
-    bool RayInstersection(Ray arg);
+    bool RayInstersection(Ray* arg);
     void SetTriangle(Vertex v1, Vertex v2, Vertex v3);
+    void SetColor(int r, int g, int b);
 
 
 private:
