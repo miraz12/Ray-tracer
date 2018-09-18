@@ -10,12 +10,12 @@
 class Scene {
 public:
     Scene();
-    virtual ~Scene();
+    ~Scene();
     void FindInstersections(Ray arg);
 
 private:
     Triangle scene[24];
-    Vertex vertexlist[7];
+    Vertex vertexlist[14];
 };
 
 
