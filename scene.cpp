@@ -31,7 +31,7 @@ Scene::Scene()
     //    5     6
     this->scene[0].SetTriangle(vertexlist[0], vertexlist[1], vertexlist[2]);
     this->scene[1].SetTriangle(vertexlist[0], vertexlist[2], vertexlist[3]);    
-    this->scene[2].SetTriangle(vertexlist[3], vertexlist[4], vertexlist[3]);    
+    this->scene[2].SetTriangle(vertexlist[3], vertexlist[2], vertexlist[4]);    
     this->scene[3].SetTriangle(vertexlist[1], vertexlist[5], vertexlist[2]);    
     this->scene[4].SetTriangle(vertexlist[2], vertexlist[5], vertexlist[6]);    
     this->scene[5].SetTriangle(vertexlist[2], vertexlist[6], vertexlist[4]);    
@@ -63,7 +63,7 @@ Scene::Scene()
     this->scene[14].SetTriangle(vertexlist[7], vertexlist[0], vertexlist[3]);
     this->scene[15].SetTriangle(vertexlist[7], vertexlist[3], vertexlist[10]);
     this->scene[16].SetTriangle(vertexlist[10], vertexlist[3], vertexlist[4]);
-    this->scene[17].SetTriangle(vertexlist[10], vertexlist[4], vertexlist[3]);
+    this->scene[17].SetTriangle(vertexlist[10], vertexlist[4], vertexlist[11]);
 
     //Wall2
     // 8____12______13___11
