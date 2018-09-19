@@ -15,7 +15,7 @@ Camera::~Camera() {}
 void Camera::Render()
 {
     float t = 2.f;
-    Vertex eye = eye1;
+    Vertex eye = eye0;
 
     for (int i = 0; i < 800; ++i)
     {

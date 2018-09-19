@@ -18,7 +18,7 @@ bool Triangle::RayInstersection(Ray* arg)
     float a, f, u, v;
 
     Direction rayDir;
-    rayDir.dir = glm::normalize(arg->start.vertex - arg->end.vertex);
+    rayDir.dir = glm::normalize(arg->end.vertex - arg->start.vertex);
     edge1 = vertex1.vertex - vertex0.vertex;
     edge2 = vertex2.vertex - vertex0.vertex;
 
