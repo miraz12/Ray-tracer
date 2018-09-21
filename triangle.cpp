@@ -18,9 +18,9 @@ bool Triangle::RayInstersection(Ray* arg)
     float a, f, u, v;
 
     Direction rayDir;
-    rayDir.dir = arg->start.vertex - arg->end.vertex;
-    edge1 = vertex1.vertex - vertex0.vertex;
-    edge2 = vertex2.vertex - vertex0.vertex;
+    rayDir.dir = glm::vec3(arg->start.vertex - arg->end.vertex);
+    edge1 = glm::vec3(vertex1.vertex - vertex0.vertex);
+    edge2 = glm::vec3(vertex2.vertex - vertex0.vertex);
 
     h = glm::cross(rayDir.dir, edge2);
     a = glm::dot(edge1, h);
@@ -28,7 +28,7 @@ bool Triangle::RayInstersection(Ray* arg)
     if (a > -EPSILON && a < EPSILON)
         return false;
     f = 1 / a;
-    s = arg->start.vertex - vertex0.vertex;
+    s = glm::vec3(arg->start.vertex - vertex0.vertex);
     u = f * glm::dot(s, h);
     if (u < 0.0 || u > 1.0)
         return false;
