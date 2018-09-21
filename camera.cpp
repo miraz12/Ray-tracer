@@ -2,6 +2,8 @@
 // Created by shaggy on 9/17/18.
 //
 
+#include <cstdio>
+#include <cstring>
 #include "camera.h"
 
 Camera::Camera()
