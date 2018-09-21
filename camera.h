@@ -26,9 +26,15 @@ private:
     Vertex eye0, eye1;
     int eyeChoice = 0;
 
-    Pixel screen[800][800];
 
-    Scene scene; 
+    Scene scene;
+
+    //800 × 800
+    static const int width = 800;
+    static const int  height = 800;
+
+    Pixel screen[width][height];
+
 
 };
 
