@@ -15,18 +15,18 @@ Camera::~Camera() {}
 void Camera::Render()
 {
     float t = 2.f;
-    Vertex eye = eye1;
+    Vertex eye = eye0;
 
-    for (int j = 0; j < 800; ++j)
+    for (int i = 0; i < 800; ++i)
     {
-        for (int i = 0; i < 800; ++i)
+        for (int j = 0; j < 800; ++j)
         {
             Ray* pixelRay = new Ray();
-            screen[i][j].ray = pixelRay;
+            screen[j][i].ray = pixelRay;
             pixelRay->start.vertex = eye.vertex;
             pixelRay->end.vertex = eye.vertex + t * (glm::vec4(0.0f, j * 0.0025f - 0.99875, i * 0.0025f - 0.99875, 1.0f) - eye.vertex);
             scene.FindInstersections(pixelRay);
-            screen[i][j].colInt = pixelRay->color;
+            screen[j][i].colInt = pixelRay->color;
         }
     }
 }
@@ -48,9 +48,9 @@ void Camera::CreateImage()
         {
             int x = i;
             int y = (h - 1) - j;
-            int r = this->screen[j][i].colInt.color.x;
-            int g = this->screen[j][i].colInt.color.y;
-            int b = this->screen[j][i].colInt.color.z;
+            int r = this->screen[i][j].colInt.color.x;
+            int g = this->screen[i][j].colInt.color.y;
+            int b = this->screen[i][j].colInt.color.z;
             if (r > 255) r = 255;
             if (g > 255) g = 255;
             if (b > 255) b = 255;

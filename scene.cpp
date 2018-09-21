@@ -30,12 +30,18 @@ Scene::Scene()
     //    \/___\/
     //    5     6
     this->scene[0].SetTriangle(vertexlist[0], vertexlist[1], vertexlist[2]);
-    this->scene[1].SetTriangle(vertexlist[0], vertexlist[2], vertexlist[3]);    
-    this->scene[2].SetTriangle(vertexlist[3], vertexlist[4], vertexlist[3]);    
-    this->scene[3].SetTriangle(vertexlist[1], vertexlist[5], vertexlist[2]);    
-    this->scene[4].SetTriangle(vertexlist[2], vertexlist[5], vertexlist[6]);    
-    this->scene[5].SetTriangle(vertexlist[2], vertexlist[6], vertexlist[4]);    
-    
+    this->scene[0].SetColor(255, 0, 0);
+    this->scene[1].SetTriangle(vertexlist[0], vertexlist[2], vertexlist[3]);
+    this->scene[1].SetColor(0, 255, 0);
+    this->scene[2].SetTriangle(vertexlist[3], vertexlist[2], vertexlist[4]);
+    this->scene[2].SetColor(0, 0, 255);
+    this->scene[3].SetTriangle(vertexlist[1], vertexlist[5], vertexlist[2]);
+    this->scene[3].SetColor(0, 255, 255);
+    this->scene[4].SetTriangle(vertexlist[2], vertexlist[5], vertexlist[6]);
+    this->scene[4].SetColor(255, 255, 0);
+    this->scene[5].SetTriangle(vertexlist[2], vertexlist[6], vertexlist[4]);
+    this->scene[5].SetColor(255, 0, 255);
+
     //Roof
     //    7_____10
     //    /\   /\
@@ -44,11 +50,17 @@ Scene::Scene()
     //    \/___\/
     //    12    13
     this->scene[6].SetTriangle(vertexlist[7], vertexlist[8], vertexlist[9]);
+    this->scene[6].SetColor(255, 0, 0);
     this->scene[7].SetTriangle(vertexlist[7], vertexlist[9], vertexlist[10]);
+    this->scene[7].SetColor(0, 255, 0);
     this->scene[8].SetTriangle(vertexlist[10], vertexlist[9], vertexlist[11]);
+    this->scene[8].SetColor(0, 0, 255);
     this->scene[9].SetTriangle(vertexlist[8], vertexlist[12], vertexlist[9]);
+    this->scene[9].SetColor(255, 255, 0);
     this->scene[10].SetTriangle(vertexlist[9], vertexlist[12], vertexlist[13]);
+    this->scene[10].SetColor(255, 0, 255);
     this->scene[11].SetTriangle(vertexlist[9], vertexlist[13], vertexlist[11]);
+    this->scene[11].SetColor(0, 255, 255);
 
     //Wall1
     // 8____7_______10___11
@@ -63,7 +75,10 @@ Scene::Scene()
     this->scene[14].SetTriangle(vertexlist[7], vertexlist[0], vertexlist[3]);
     this->scene[15].SetTriangle(vertexlist[7], vertexlist[3], vertexlist[10]);
     this->scene[16].SetTriangle(vertexlist[10], vertexlist[3], vertexlist[4]);
-    this->scene[17].SetTriangle(vertexlist[10], vertexlist[4], vertexlist[3]);
+    this->scene[16].SetColor(255, 0, 0);
+    this->scene[17].SetTriangle(vertexlist[10], vertexlist[4], vertexlist[11]);
+    this->scene[17].SetColor(0, 255, 0);
+
 
     //Wall2
     // 8____12______13___11
@@ -73,12 +88,9 @@ Scene::Scene()
     // |___\|______\|___\|
     // 1    5       6    4
     this->scene[18].SetTriangle(vertexlist[8], vertexlist[1], vertexlist[5]);
-    this->scene[18].SetColor(0, 255, 0);
     this->scene[19].SetTriangle(vertexlist[8], vertexlist[5], vertexlist[12]);
     this->scene[20].SetTriangle(vertexlist[12], vertexlist[5], vertexlist[6]);
-    this->scene[20].SetColor(0, 0, 0);
     this->scene[21].SetTriangle(vertexlist[12], vertexlist[6], vertexlist[13]);
-    this->scene[21].SetColor(255, 0, 255);
     this->scene[22].SetTriangle(vertexlist[13], vertexlist[6], vertexlist[4]);
     this->scene[22].SetColor(0, 255, 255);
     this->scene[23].SetTriangle(vertexlist[13], vertexlist[4], vertexlist[11]);
