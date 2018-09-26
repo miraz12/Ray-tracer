@@ -52,9 +52,11 @@ void Camera::CreateImage()
         {
             int x = i;
             int y = (h - 1) - j;
-            int r = int(255 / clrMax * this->screen[i][j].colInt.color.x);
-            int g = int(255 / clrMax * this->screen[i][j].colInt.color.y);
-            int b = int(255 / clrMax * this->screen[i][j].colInt.color.z);
+            glm::vec3 sqrColor = glm::sqrt(this->screen[i][j].colInt.color);
+            ColorDbl sqrC(sqrColor.x, sqrColor.y, sqrColor.z);
+            int r = int(255.99f / clrMax * sqrC.color.x);
+            int g = int(255.99f / clrMax * sqrC.color.y);
+            int b = int(255.99f / clrMax * sqrC.color.z);
             if (r > 255) r = 255;
             if (g > 255) g = 255;
             if (b > 255) b = 255;
