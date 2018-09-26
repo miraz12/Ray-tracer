@@ -11,12 +11,13 @@
 class Triangle {
 public:
     Triangle();
+    Triangle(Vertex v1, Vertex v2, Vertex v3);
     ~Triangle();
 
     bool RayInstersection(Ray* arg);
     void SetTriangle(Vertex v1, Vertex v2, Vertex v3);
     void SetTriangle(Vertex v1, Vertex v2, Vertex v3, ColorDbl c);
-    void SetColor(int r, int g, int b);
+    void SetColor(float r, float g, float b);
 
 
 private:

@@ -6,6 +6,7 @@
 #define RAY_TRACER_SCENE_H
 
 #include "triangle.h"
+#include "tetrahedron.h"
 
 class Scene {
 public:
@@ -16,6 +17,12 @@ public:
 private:
     Triangle scene[24];
     Vertex vertexlist[14];
+    std::vector<Tetrahedron> tetras;
+
+
+    //Tetra test
+    Vertex tetralist[4];
+
 };
 
 

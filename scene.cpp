@@ -40,7 +40,7 @@ Scene::Scene()
     //Roof
     //    7_____10
     //    /\   /\
-    //  8/__\9/__\11
+    //  8/__\9/_.\11
     //   \  / \  /
     //    \/___\/
     //    12    13
@@ -83,6 +83,24 @@ Scene::Scene()
     this->scene[22].SetTriangle(vertexlist[13], vertexlist[6], vertexlist[4], white);
     this->scene[23].SetTriangle(vertexlist[13], vertexlist[4], vertexlist[11], white);
 
+
+    //Tetra
+    //        4
+    //       /|\
+    //      / | \
+    //     /  |  \
+    //    /   |   \
+    //  1/____|2___\3
+
+    tetralist[0] = Vertex(4, -1, 0);
+    tetralist[1] = Vertex(4, 0, 0);
+    tetralist[2] = Vertex(3, 1, 0);
+    tetralist[3] = Vertex(5, 0, 1);
+
+    ColorDbl pink(1, 0, 1);
+    Tetrahedron t(tetralist[0], tetralist[1], tetralist[2], tetralist[3], pink);
+    tetras.push_back(t);
+
 }
 
 Scene::~Scene() {}
@@ -92,5 +110,10 @@ void Scene::FindInstersections(Ray* arg)
     for (int i = 0; i < 24; ++i)
     {
         scene[i].RayInstersection(arg);
+    }
+    for (int i = 0; i < tetras.size(); ++i)
+    {
+        bool test = tetras[i].RayIntersection(arg);
+        return;
     }
 }

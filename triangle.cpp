@@ -48,6 +48,7 @@ bool Triangle::RayInstersection(Ray* arg)
         arg->hitTri = this;
         arg->end.vertex = intersection;
         arg->color = color;
+        arg->t = t;
         return true;
     }
     else // This means that there is a line intersection but not a ray intersection.
@@ -69,10 +70,17 @@ void Triangle::SetTriangle(Vertex v1, Vertex v2, Vertex v3, ColorDbl c)
     color = c;
 }
 
-void Triangle::SetColor(int r, int g, int b)
+void Triangle::SetColor(float r, float g, float b)
 {
     color.color.x = r;
     color.color.y = g;
     color.color.z = b;
+}
+
+Triangle::Triangle(Vertex v1, Vertex v2, Vertex v3)
+{
+    tri[0] = v1;
+    tri[1] = v2;
+    tri[2] = v3;
 }
 
