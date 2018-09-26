@@ -25,16 +25,29 @@ struct Vertex
 
 struct Direction
 {
+    Direction(){}
     glm::vec3 dir = glm::vec3(0.0f, 0.0f, 0.0f);
 };
 
 struct ColorDbl
 {
-    glm::vec3 color = glm::vec3(255.0f, 255.0f, 255.0f);
+    ColorDbl()
+    {
+        color = glm::vec3(1.f, 1.f, 1.f);
+    }
+    ColorDbl(int r, int g, int b)
+    {
+        color.x = r;
+        color.y = g;
+        color.z = b;
+    }
+
+    glm::vec3 color;
 };
 
 struct Ray
 {
+    Ray(){}
     Vertex start;
     Vertex end;
     Triangle* hitTri;

@@ -10,6 +10,7 @@
 
 struct Pixel
 {
+    Pixel(){}
     ColorDbl colInt;
     Ray* ray;
 };
@@ -24,12 +25,10 @@ public:
 
 private:
     Vertex eye0, eye1;
-    int eyeChoice = 0;
-
     Pixel screen[800][800];
-
     Scene scene; 
-
+    int eyeChoice = 0;
+    float clrMax = 0;
 };
 
 

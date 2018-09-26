@@ -26,7 +26,9 @@ void Camera::Render()
             pixelRay->start.vertex = eye.vertex;
             pixelRay->end.vertex = eye.vertex + t * (glm::vec4(0.0f, j * 0.0025f - 0.99875, i * 0.0025f - 0.99875, 1.0f) - eye.vertex);
             scene.FindInstersections(pixelRay);
-            screen[j][i].colInt = pixelRay->color;
+            ColorDbl color = pixelRay->color;
+            screen[j][i].colInt = color;
+            clrMax = glm::max(color.color.x, glm::max(color.color.y, color.color.z));
         }
     }
 }
@@ -48,9 +50,9 @@ void Camera::CreateImage()
         {
             int x = i;
             int y = (h - 1) - j;
-            int r = this->screen[i][j].colInt.color.x;
-            int g = this->screen[i][j].colInt.color.y;
-            int b = this->screen[i][j].colInt.color.z;
+            int r = int(255 / clrMax * this->screen[i][j].colInt.color.x);
+            int g = int(255 / clrMax * this->screen[i][j].colInt.color.y);
+            int b = int(255 / clrMax * this->screen[i][j].colInt.color.z);
             if (r > 255) r = 255;
             if (g > 255) g = 255;
             if (b > 255) b = 255;

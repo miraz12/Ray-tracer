@@ -15,6 +15,7 @@ public:
 
     bool RayInstersection(Ray* arg);
     void SetTriangle(Vertex v1, Vertex v2, Vertex v3);
+    void SetTriangle(Vertex v1, Vertex v2, Vertex v3, ColorDbl c);
     void SetColor(int r, int g, int b);
 
 

@@ -61,6 +61,14 @@ void Triangle::SetTriangle(Vertex v1, Vertex v2, Vertex v3)
     tri[2] = v3;
 }
 
+void Triangle::SetTriangle(Vertex v1, Vertex v2, Vertex v3, ColorDbl c)
+{
+    tri[0] = v1;
+    tri[1] = v2;
+    tri[2] = v3;
+    color = c;
+}
+
 void Triangle::SetColor(int r, int g, int b)
 {
     color.color.x = r;
