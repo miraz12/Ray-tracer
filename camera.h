@@ -25,10 +25,15 @@ public:
 
 private:
     Vertex eye0, eye1;
-    Pixel screen[800][800];
-    Scene scene; 
     int eyeChoice = 0;
     float clrMax = 0;
+    Scene scene;
+
+    //800 × 800
+    static const int width = 800;
+    static const int  height = 800;
+
+    Pixel screen[width][height];
 };
 
 

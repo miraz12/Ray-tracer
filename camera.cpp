@@ -2,6 +2,8 @@
 // Created by shaggy on 9/17/18.
 //
 
+#include <cstdio>
+#include <cstring>
 #include "camera.h"
 
 Camera::Camera()
@@ -17,9 +19,9 @@ void Camera::Render()
     float t = 2.f;
     Vertex eye = eye0;
 
-    for (int i = 0; i < 800; ++i)
+    for (int i = 0; i < width; ++i)
     {
-        for (int j = 0; j < 800; ++j)
+        for (int j = 0; j < height; ++j)
         {
             Ray* pixelRay = new Ray();
             screen[j][i].ray = pixelRay;
@@ -35,8 +37,8 @@ void Camera::Render()
 
 void Camera::CreateImage()
 {
-    int w = 800;
-    int h = 800;
+    int w = width;
+    int h = height;
     FILE *f;
     unsigned char *img = NULL;
     int filesize = 54 + 3 * w*h;

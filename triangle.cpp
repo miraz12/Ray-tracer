@@ -18,9 +18,10 @@ bool Triangle::RayInstersection(Ray* arg)
     float a, f, u, v;
 
     Direction rayDir;
-    rayDir.dir = glm::normalize(arg->end.vertex - arg->start.vertex);
-    edge1 = vertex1.vertex - vertex0.vertex;
-    edge2 = vertex2.vertex - vertex0.vertex;
+
+    rayDir.dir = glm::vec3(arg->end.vertex - arg->start.vertex);
+    edge1 = glm::vec3(vertex1.vertex - vertex0.vertex);
+    edge2 = glm::vec3(vertex2.vertex - vertex0.vertex);
 
     h = glm::cross(rayDir.dir, edge2); //Edge normal
     a = glm::dot(edge1, h); //Determinant
@@ -28,11 +29,10 @@ bool Triangle::RayInstersection(Ray* arg)
     if (a > -EPSILON && a < EPSILON)
         return false;
 
-    f = 1 / a; //Inverted determinant
-    s = arg->start.vertex - vertex0.vertex; 
+    f = 1 / a;
+    s = glm::vec3(arg->start.vertex - vertex0.vertex);
+    u = f * glm::dot(s, h);
 
-    // test bounds
-    u = f * glm::dot(s, h); 
     if (u < 0.0 || u > 1.0)
         return false;
     q = glm::cross(s, edge1);
