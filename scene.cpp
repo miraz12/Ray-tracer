@@ -101,6 +101,9 @@ Scene::Scene()
     Tetrahedron t(tetralist[0], tetralist[1], tetralist[2], tetralist[3], pink);
     tetras.push_back(t);
 
+    Sphere s(glm::vec4(4.f, 2.f, 2.f, 1), 1);
+    spheres.push_back(s);
+
 }
 
 Scene::~Scene() {}
@@ -113,7 +116,11 @@ void Scene::FindInstersections(Ray* arg)
     }
     for (int i = 0; i < tetras.size(); ++i)
     {
-        bool test = tetras[i].RayIntersection(arg);
-        return;
+        tetras[i].RayIntersection(arg);
     }
+    for (int i = 0; i < spheres.size(); ++i)
+    {
+        spheres[i].RayIntersection(arg);
+    }
+
 }

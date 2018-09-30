@@ -7,19 +7,23 @@
 
 
 #include <glm/vec4.hpp>
+#include "base.h"
+
+struct Ray;
 
 class Sphere
 {
 
 public:
-    Sphere(const glm::vec4 &center, float radius);
-
+    Sphere(const glm::vec4 center, float radius);
+    bool RayIntersection(Ray* arg);
     virtual ~Sphere();
 
 private:
 
     glm::vec4 center;
     float radius;
+    ColorDbl color = ColorDbl(0, 0, 0);
 };
 
 

@@ -19,7 +19,7 @@ bool Triangle::RayInstersection(Ray* arg)
 
     Direction rayDir;
 
-    rayDir.dir = glm::vec3(arg->end.vertex - arg->start.vertex);
+    rayDir.dir = glm::normalize(glm::vec3(arg->end.vertex - arg->start.vertex));
     edge1 = glm::vec3(vertex1.vertex - vertex0.vertex);
     edge2 = glm::vec3(vertex2.vertex - vertex0.vertex);
 
@@ -40,7 +40,6 @@ bool Triangle::RayInstersection(Ray* arg)
     if (v < 0.0 || u + v > 1.0)
         return false;
 
-    // At this stage we can compute t to find out where the intersection point is on the line.
     float t = f * glm::dot(edge2, q);
     if (t > EPSILON) // ray intersection
     {
@@ -51,7 +50,7 @@ bool Triangle::RayInstersection(Ray* arg)
         arg->t = t;
         return true;
     }
-    else // This means that there is a line intersection but not a ray intersection.
+    else 
         return false;
 }
 

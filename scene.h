@@ -7,6 +7,7 @@
 
 #include "triangle.h"
 #include "tetrahedron.h"
+#include "sphere.h"
 
 class Scene {
 public:
@@ -18,6 +19,7 @@ private:
     Triangle scene[24];
     Vertex vertexlist[14];
     std::vector<Tetrahedron> tetras;
+    std::vector<Sphere> spheres;
 
 
     //Tetra test
