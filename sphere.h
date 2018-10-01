@@ -23,7 +23,7 @@ private:
 
     glm::vec4 center;
     float radius;
-    ColorDbl color = ColorDbl(0, 0, 0);
+    ColorDbl color = ColorDbl(0.3, 0.3, 0.3);
 };
 
 

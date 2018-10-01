@@ -11,43 +11,37 @@ Sphere::Sphere(const glm::vec4 center, float radius) : center(center), radius(ra
 bool Sphere::RayIntersection(Ray* arg)
 {
 
-    float t0, t1;
     Direction rayDir;
     rayDir.dir = glm::normalize(glm::vec3(arg->end.vertex - arg->start.vertex));
     
     glm::vec3 L = arg->start.vertex - center;
     float a = glm::dot(rayDir.dir, rayDir.dir);
     float b = 2 * glm::dot(rayDir.dir, L);
-    float c = glm::dot(L, L) - radius * radius;
+    float c = glm::dot(center, center) + glm::dot(arg->start.vertex, arg->start.vertex) - 2.0f * glm::dot(arg->start.vertex, center) - radius * radius;
+    float delta = b*b + (-4.0f) * a * c;
 
-    float d = b * b - 4 * a * c;
-    if (d < 0)
-    {
+
+    if (delta < 0)
         return false;
-    }
-    if (d == 0)
+
+    delta = sqrtf(delta);
+
+    float t = (-0.5f) * (b + delta) / a;
+
+    if (t > 0.0f)
     {
-        t0 = t1 = -0.5 * b / a;
+        if (t < arg->t)
+        {
+            arg->end.vertex = arg->start.vertex + glm::vec4(rayDir.dir, 1.0f) * t;
+            arg->color = color;
+            return true;
+        }
+        return false;
     }
     else
     {
-        float q = (b > 0) ? -0.5 * (b + sqrtf(d)) : -0.5 * (b - sqrtf(d));
-        t0 = q / a; 
-        t1 = c / q;
+        return false;
     }
-
-    if (t0 > t1)
-        std::swap(t0, t1);
-
-    if(t0 < 0)
-    {
-        t0 = t1;
-        if(t0 < 0)
-            return false;
-    }
-
-    arg->end.vertex = arg->start.vertex + glm::vec4(rayDir.dir, 1.0f) * t0;
-    arg->color = color;
 }
 
 Sphere::~Sphere() {}

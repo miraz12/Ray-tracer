@@ -101,7 +101,7 @@ Scene::Scene()
     Tetrahedron t(tetralist[0], tetralist[1], tetralist[2], tetralist[3], pink);
     tetras.push_back(t);
 
-    Sphere s(glm::vec4(4.f, 2.f, 2.f, 1), 1);
+    Sphere s(glm::vec4(4.f, 2.f, 0.f, 1), 1);
     spheres.push_back(s);
 
 }
