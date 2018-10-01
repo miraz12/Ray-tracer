@@ -76,6 +76,18 @@ void Triangle::SetColor(float r, float g, float b)
     color.color.z = b;
 }
 
+glm::vec3 Triangle::GetNormal()
+{
+    glm::vec3 V1 = tri[1].vertex - tri[0].vertex;
+    glm::vec3 V2 = tri[2].vertex - tri[0].vertex;
+    glm::vec3 normal;
+    normal.x = (V1.y*V2.z) - (V1.z - V2.y);
+    normal.y = -((V2.z * V1.x) - (V2.x * V1.z));
+    normal.z = (V1.x*V2.y) - (V1.y*V2.x);
+
+    return normal;
+}
+
 Triangle::Triangle(Vertex v1, Vertex v2, Vertex v3)
 {
     tri[0] = v1;

@@ -42,6 +42,11 @@ struct ColorDbl
         color.z = b;
     }
 
+    ColorDbl operator*(const float& rhs)
+    {
+        this->color * rhs;
+    };
+
     glm::vec3 color;
 };
 

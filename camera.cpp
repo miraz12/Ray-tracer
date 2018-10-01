@@ -28,6 +28,8 @@ void Camera::Render()
             pixelRay->start.vertex = eye.vertex;
             pixelRay->end.vertex = eye.vertex + t * (glm::vec4(0.0f, j * 0.0025f - 0.99875, i * 0.0025f - 0.99875, 1.0f) - eye.vertex);
             scene.FindInstersections(pixelRay);
+
+
             ColorDbl color = pixelRay->color;
             screen[j][i].colInt = color;
             clrMax = glm::max(color.color.x, glm::max(color.color.y, color.color.z));

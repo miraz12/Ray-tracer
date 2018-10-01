@@ -18,6 +18,7 @@ public:
     void SetTriangle(Vertex v1, Vertex v2, Vertex v3);
     void SetTriangle(Vertex v1, Vertex v2, Vertex v3, ColorDbl c);
     void SetColor(float r, float g, float b);
+    glm::vec3 GetNormal();
 
 
 private:
