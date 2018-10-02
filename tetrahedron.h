@@ -18,7 +18,6 @@ public:
     bool RayIntersection(Ray* arg);
     Triangle mesh[4];
 
-
 private:
     ColorDbl color;
 };

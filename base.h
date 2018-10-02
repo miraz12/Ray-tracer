@@ -33,7 +33,7 @@ struct ColorDbl
 {
     ColorDbl()
     {
-        color = glm::vec3(1.f, 1.f, 1.f);
+        color = glm::vec3(0.f, 0.f, 0.f);
     }
     ColorDbl(float r, float g, float b)
     {
@@ -57,6 +57,7 @@ struct Ray
     Vertex end;
     Triangle* hitTri;
     ColorDbl color;
+    glm::vec3 normal;
     float t = INT32_MAX;
 };
 

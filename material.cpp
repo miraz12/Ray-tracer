@@ -16,10 +16,11 @@ Material::~Material()
 {
 }
 
-Material::Material(const ColorDbl& color, double reflection_coefficient)
+Material::Material(const ColorDbl& color, double reflection_coefficient, ReflectionType type)
 {
     this->color = color;
     this->reflectionCoefficient = reflection_coefficient;
+    this->type = type;
 }
 
 ColorDbl Material::Hit(Ray* arg)
@@ -32,11 +33,19 @@ ColorDbl Material::Hit(Ray* arg)
     {
         Direction dir;
         dir.dir = arg->end.vertex - arg->start.vertex;
-        glm::vec3 newDir = dir.dir - 2.0f * (glm::dot(dir.dir, arg->hitTri->GetNormal()) * arg->hitTri->GetNormal());
+        glm::vec3 newDir = glm::reflect(dir.dir, arg->normal);
+        arg->start.vertex = arg->end.vertex;
+        arg->end.vertex = arg->start.vertex + 2.0f * glm::vec4(newDir, 1.0f) - arg->start.vertex;
+        return color;
     }
-    else //Transparent
+    else //Transparent, Snell's law
     {
-        
+        Direction dir;
+        dir.dir = arg->end.vertex - arg->start.vertex;
+        glm::vec3 newDir = glm::refract(dir.dir, arg->normal, float(1.f/ reflectionCoefficient));
+        arg->start.vertex = arg->end.vertex;
+        arg->end.vertex = arg->start.vertex + 2.0f * glm::vec4(newDir, 1.0f) - arg->start.vertex;
+        return color;
     }
 
 

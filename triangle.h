@@ -7,6 +7,7 @@
 
 #include <vector>
 #include "base.h"
+#include "material.h"
 
 class Triangle {
 public:
@@ -17,9 +18,10 @@ public:
     bool RayInstersection(Ray* arg);
     void SetTriangle(Vertex v1, Vertex v2, Vertex v3);
     void SetTriangle(Vertex v1, Vertex v2, Vertex v3, ColorDbl c);
+    void SetTriangle(Vertex v1, Vertex v2, Vertex v3, Material m);
     void SetColor(float r, float g, float b);
     glm::vec3 GetNormal();
-
+    Material material;
 
 private:
     Vertex tri[3];

@@ -8,6 +8,8 @@
 
 Sphere::Sphere(const glm::vec4 center, float radius) : center(center), radius(radius) {}
 
+Sphere::Sphere(const glm::vec4 center, float radius, Triangle* tri) : center(center), radius(radius), infoTri(tri) {}
+
 bool Sphere::RayIntersection(Ray* arg)
 {
 
@@ -33,7 +35,10 @@ bool Sphere::RayIntersection(Ray* arg)
         if (t < arg->t)
         {
             arg->end.vertex = arg->start.vertex + glm::vec4(rayDir.dir, 1.0f) * t;
-            arg->color = color;
+            arg->color = infoTri->material.color;
+            arg->hitTri = infoTri;
+            arg->t = t;
+            arg->normal = arg->end.vertex - center;
             return true;
         }
         return false;

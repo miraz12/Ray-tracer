@@ -18,7 +18,7 @@ class Material {
 public:
     Material();
     ~Material();
-    Material(const ColorDbl& color, double reflection_coefficient);
+    Material(const ColorDbl& color, double reflection_coefficient, ReflectionType type);
     ColorDbl Hit(Ray* arg);
 
     ColorDbl color;

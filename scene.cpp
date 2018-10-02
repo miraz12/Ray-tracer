@@ -101,7 +101,11 @@ Scene::Scene()
     Tetrahedron t(tetralist[0], tetralist[1], tetralist[2], tetralist[3], pink);
     tetras.push_back(t);
 
-    Sphere s(glm::vec4(4.f, 2.f, 0.f, 1), 1);
+    Material matSphere(ColorDbl(0.3, 0.3, 0.3), 1.5, specular);
+    Triangle* infoTri = new Triangle();
+    Vertex tv(0.0, 0.0, 0.0, 1);
+    infoTri->SetTriangle(tv, tv, tv, matSphere);
+    Sphere s(glm::vec4(4.f, 2.f, 0.f, 1), 1, infoTri);
     spheres.push_back(s);
 
 }

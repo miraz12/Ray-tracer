@@ -8,6 +8,8 @@
 
 #include <glm/vec4.hpp>
 #include "base.h"
+#include "triangle.h"
+
 
 struct Ray;
 
@@ -16,6 +18,7 @@ class Sphere
 
 public:
     Sphere(const glm::vec4 center, float radius);
+    Sphere(const glm::vec4 center, float radius, Triangle* infoTri);
     bool RayIntersection(Ray* arg);
     virtual ~Sphere();
 
@@ -23,7 +26,7 @@ private:
 
     glm::vec4 center;
     float radius;
-    ColorDbl color = ColorDbl(0.3, 0.3, 0.3);
+    Triangle* infoTri;
 };
 
 

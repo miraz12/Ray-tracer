@@ -6,6 +6,8 @@
 #include <cstring>
 #include "camera.h"
 
+
+
 Camera::Camera()
 {
     eye0.vertex = glm::vec4(-2.f, 0.f, 0.f, 1.f);
@@ -13,6 +15,8 @@ Camera::Camera()
 }
 
 Camera::~Camera() {}
+
+
 
 void Camera::Render()
 {
@@ -29,12 +33,31 @@ void Camera::Render()
             pixelRay->end.vertex = eye.vertex + t * (glm::vec4(0.0f, j * 0.0025f - 0.99875, i * 0.0025f - 0.99875, 1.0f) - eye.vertex);
             scene.FindInstersections(pixelRay);
 
-
-            ColorDbl color = pixelRay->color;
+            ColorDbl color = BounceRay(pixelRay);
             screen[j][i].colInt = color;
             clrMax = glm::max(color.color.x, glm::max(color.color.y, color.color.z));
         }
     }
+}
+
+ColorDbl Camera::BounceRay(Ray* arg)
+{
+    ColorDbl color;
+    for (int i = 0; i < 4; i++)
+    {
+        if (arg->hitTri->material.type == diffuse) // TODO: this will be removed later.
+        {
+            color.color += arg->color.color;
+            break;
+        }
+        else
+        {
+            color.color += arg->hitTri->material.Hit(arg).color;
+            scene.FindInstersections(arg);
+        }
+    }
+
+    return color;
 }
 
 void Camera::CreateImage()

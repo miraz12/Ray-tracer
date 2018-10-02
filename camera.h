@@ -11,7 +11,9 @@
 struct Pixel
 {
     Pixel(){}
+    
     ColorDbl colInt;
+
     Ray* ray;
 };
 
@@ -21,7 +23,9 @@ public:
     Camera();
     virtual ~Camera();
     void Render();
+    ColorDbl BounceRay(Ray* arg);
     void CreateImage();
+
 
 private:
     Vertex eye0, eye1;

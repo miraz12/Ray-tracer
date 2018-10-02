@@ -48,6 +48,7 @@ bool Triangle::RayInstersection(Ray* arg)
         arg->end.vertex = intersection;
         arg->color = color;
         arg->t = t;
+        arg->normal = this->GetNormal();
         return true;
     }
     else 
@@ -67,6 +68,15 @@ void Triangle::SetTriangle(Vertex v1, Vertex v2, Vertex v3, ColorDbl c)
     tri[1] = v2;
     tri[2] = v3;
     color = c;
+    material = Material(c, 1.0f, diffuse);
+}
+
+void Triangle::SetTriangle(Vertex v1, Vertex v2, Vertex v3, Material m)
+{
+    tri[0] = v1;
+    tri[1] = v2;
+    tri[2] = v3;
+    material = m;
 }
 
 void Triangle::SetColor(float r, float g, float b)
@@ -85,7 +95,7 @@ glm::vec3 Triangle::GetNormal()
     normal.y = -((V2.z * V1.x) - (V2.x * V1.z));
     normal.z = (V1.x*V2.y) - (V1.y*V2.x);
 
-    return normal;
+    return glm::normalize(normal);
 }
 
 Triangle::Triangle(Vertex v1, Vertex v2, Vertex v3)
