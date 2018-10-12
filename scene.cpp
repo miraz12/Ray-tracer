@@ -3,6 +3,7 @@
 //
 
 #include "scene.h"
+#include <glm/gtx/norm.inl>
 
 Scene::Scene()
 {
@@ -22,6 +23,11 @@ Scene::Scene()
     vertexlist[12] = Vertex(0.0f, -6.0f, 5.0f);
     vertexlist[13] = Vertex(10.0f, -6.0f, 5.0f);
 
+    ColorDbl red(1.f, 0, 0);
+    ColorDbl blue(0, 0, 1.f);
+    ColorDbl white(1.f, 1.f, 1.f);
+    ColorDbl green(0, 1.f, 0);
+
     //Floor
     //    0_____3
     //    /\   /\
@@ -29,7 +35,6 @@ Scene::Scene()
     //   \  / \  /
     //    \/___\/
     //    5     6
-    ColorDbl red(1.f, 0, 0);
     this->scene[0].SetTriangle(vertexlist[0], vertexlist[1], vertexlist[2], red);
     this->scene[1].SetTriangle(vertexlist[0], vertexlist[2], vertexlist[3], red);
     this->scene[2].SetTriangle(vertexlist[3], vertexlist[2], vertexlist[4], red);
@@ -44,9 +49,13 @@ Scene::Scene()
     //   \  / \  /
     //    \/___\/
     //    12    13
-    ColorDbl green(0, 1.f, 0);
+    LightSource light;
     this->scene[6].SetTriangle(vertexlist[7], vertexlist[8], vertexlist[9], green);
-    this->scene[7].SetTriangle(vertexlist[7], vertexlist[9], vertexlist[10], green);
+    //Light--
+    light.SetLight(vertexlist[7], vertexlist[9], vertexlist[10], white);
+    lights.push_back(light);
+    //this->scene[7].SetTriangle(vertexlist[7], vertexlist[9], vertexlist[10], green); 
+    //-------
     this->scene[8].SetTriangle(vertexlist[10], vertexlist[9], vertexlist[11], green);
     this->scene[9].SetTriangle(vertexlist[8], vertexlist[12], vertexlist[9], green);
     this->scene[10].SetTriangle(vertexlist[9], vertexlist[12], vertexlist[13], green);
@@ -59,7 +68,7 @@ Scene::Scene()
     // |  \ |    \  |  \ |
     // |___\|______\|___\|
     // 1    0       3    4
-    ColorDbl blue(0, 0, 1.f);
+
     this->scene[12].SetTriangle(vertexlist[8], vertexlist[1], vertexlist[0], blue);
     this->scene[13].SetTriangle(vertexlist[8], vertexlist[0], vertexlist[7], blue);
     this->scene[14].SetTriangle(vertexlist[7], vertexlist[0], vertexlist[3], blue);
@@ -75,7 +84,6 @@ Scene::Scene()
     // |  \ |    \  |  \ |
     // |___\|______\|___\|
     // 1    5       6    4
-    ColorDbl white(1.f, 1.f, 1.f);
     this->scene[18].SetTriangle(vertexlist[8], vertexlist[1], vertexlist[5], white);
     this->scene[19].SetTriangle(vertexlist[8], vertexlist[5], vertexlist[12], white);
     this->scene[20].SetTriangle(vertexlist[12], vertexlist[5], vertexlist[6], white);
@@ -95,13 +103,13 @@ Scene::Scene()
     tetralist[0] = Vertex(4, -1, 0);
     tetralist[1] = Vertex(4, 0, 0);
     tetralist[2] = Vertex(3, 1, 0);
-    tetralist[3] = Vertex(5, 0, 1);
+    tetralist[3] = Vertex(5, 0, -1);
 
     ColorDbl pink(1, 0, 1);
     Tetrahedron t(tetralist[0], tetralist[1], tetralist[2], tetralist[3], pink);
     tetras.push_back(t);
 
-    Material matSphere(ColorDbl(0.3, 0.3, 0.3), 1.5, specular);
+    Material matSphere(ColorDbl(0.3, 0.3, 0.3), 1.5, lambertian);
     Triangle* infoTri = new Triangle();
     Vertex tv(0.0, 0.0, 0.0, 1);
     infoTri->SetTriangle(tv, tv, tv, matSphere);
@@ -118,6 +126,10 @@ void Scene::FindInstersections(Ray* arg)
     {
         scene[i].RayInstersection(arg);
     }
+    for (int i = 0; i < lights.size(); ++i)
+    {
+        lights[i].RayIntersection(arg);
+    }
     for (int i = 0; i < tetras.size(); ++i)
     {
         tetras[i].RayIntersection(arg);
@@ -127,4 +139,42 @@ void Scene::FindInstersections(Ray* arg)
         spheres[i].RayIntersection(arg);
     }
 
+}
+
+ColorDbl Scene::LaunchShadowRays(Ray* arg)
+{
+    ColorDbl lightContri;
+    float area = 0.0f;
+    Ray* shadowRay = new Ray();
+    for (int i = 0; i < lights.size(); ++i)
+    {
+        for (int j = 0; j < 2; ++j) // number of shadowrays henerated
+        {
+            area += lights[i].triangles[0].Area();
+            shadowRay->start.vertex = arg->end.vertex;
+            shadowRay->end.vertex = glm::vec4(lights[i].triangles[0].GetPointOnTri(), 1);
+            shadowRay->dir.dir = shadowRay->end.vertex - shadowRay->start.vertex;
+
+            FindInstersections(shadowRay);
+            if (shadowRay->hitTri->material.type != light) //Check if point is blocked by any objects
+            {
+                continue;
+            }
+
+            //Geometric term
+            float alpha = glm::dot(arg->hitTri->GetNormal(), shadowRay->dir.dir);
+            float b = glm::dot(lights[i].triangles[0].GetNormal(), shadowRay->dir.dir);
+            float beta = glm::clamp(b, 0.0f, 1.0f);
+
+            float dist = glm::distance2(shadowRay->start.vertex, shadowRay->end.vertex);
+            float geometric = alpha * beta / dist;
+
+            lightContri.color += lights[i].color.color * lights[i].emission * geometric;
+
+        }
+    }
+
+    delete(shadowRay);
+    lightContri.color *= area;
+    return lightContri;
 }

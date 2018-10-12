@@ -46,9 +46,7 @@ bool Triangle::RayInstersection(Ray* arg)
         glm::vec4 intersection = arg->start.vertex + glm::vec4(rayDir.dir * t, 1.0f);
         arg->hitTri = this;
         arg->end.vertex = intersection;
-        arg->color = color;
         arg->t = t;
-        arg->normal = this->GetNormal();
         return true;
     }
     else 
@@ -60,6 +58,10 @@ void Triangle::SetTriangle(Vertex v1, Vertex v2, Vertex v3)
     tri[0] = v1;
     tri[1] = v2;
     tri[2] = v3;
+    glm::vec3 e1 = tri[1].vertex - tri[0].vertex;
+    glm::vec3 e2 = tri[2].vertex - tri[0].vertex;
+    material = Material(ColorDbl(0, 0, 0), 1.0f, lambertian);
+    Normal.dir = glm::normalize(glm::cross(e1, e2));
 }
 
 void Triangle::SetTriangle(Vertex v1, Vertex v2, Vertex v3, ColorDbl c)
@@ -67,8 +69,10 @@ void Triangle::SetTriangle(Vertex v1, Vertex v2, Vertex v3, ColorDbl c)
     tri[0] = v1;
     tri[1] = v2;
     tri[2] = v3;
-    color = c;
-    material = Material(c, 1.0f, diffuse);
+    material = Material(c, 1.0f, lambertian);
+    glm::vec3 e1 = tri[1].vertex - tri[0].vertex;
+    glm::vec3 e2 = tri[2].vertex - tri[0].vertex;
+    Normal.dir = glm::normalize(glm::cross(e1, e2));
 }
 
 void Triangle::SetTriangle(Vertex v1, Vertex v2, Vertex v3, Material m)
@@ -77,25 +81,45 @@ void Triangle::SetTriangle(Vertex v1, Vertex v2, Vertex v3, Material m)
     tri[1] = v2;
     tri[2] = v3;
     material = m;
-}
-
-void Triangle::SetColor(float r, float g, float b)
-{
-    color.color.x = r;
-    color.color.y = g;
-    color.color.z = b;
+    glm::vec3 e1 = tri[1].vertex - tri[0].vertex;
+    glm::vec3 e2 = tri[2].vertex - tri[0].vertex;
+    Normal.dir = glm::normalize(glm::cross(e1, e2));
 }
 
 glm::vec3 Triangle::GetNormal()
 {
-    glm::vec3 V1 = tri[1].vertex - tri[0].vertex;
-    glm::vec3 V2 = tri[2].vertex - tri[0].vertex;
-    glm::vec3 normal;
-    normal.x = (V1.y*V2.z) - (V1.z - V2.y);
-    normal.y = -((V2.z * V1.x) - (V2.x * V1.z));
-    normal.z = (V1.x*V2.y) - (V1.y*V2.x);
+    return Normal.dir;
+}
 
-    return glm::normalize(normal);
+double Triangle::Area()
+{
+    glm::vec3 e1 = tri[1].vertex - tri[0].vertex;
+    glm::vec3 e2 = tri[2].vertex - tri[0].vertex;
+    return glm::length(glm::cross(e1, e2));
+}
+
+glm::vec3 Triangle::GetPointOnTri()
+{
+    Random rand;
+    float area = Area();
+    float a = rand.GetRandomFloat(0.0, 0.1);
+    float b = rand.GetRandomFloat(0.0, 1.0);
+    if (a + b > 1.0)
+    {
+        a = 1 - a;
+        b = 1 - b;
+    }
+
+    float c = 1 - a - b;
+
+    glm::vec4 point = c * tri[0].vertex + a * tri[1].vertex + b * tri[2].vertex;
+    return FromBarycentric(point);
+
+}
+
+glm::vec3 Triangle::FromBarycentric(glm::vec3 point)
+{
+    return point + 0.001f*glm::vec3(0.0f, 0.0f, -1.0f);
 }
 
 Triangle::Triangle(Vertex v1, Vertex v2, Vertex v3)

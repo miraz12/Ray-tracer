@@ -5,13 +5,14 @@
 #include <cstdio>
 #include <cstring>
 #include "camera.h"
-
+#include <glm/gtx/vector_angle.hpp>
 
 
 Camera::Camera()
 {
     eye0.vertex = glm::vec4(-2.f, 0.f, 0.f, 1.f);
     eye1.vertex = glm::vec4(-1.f, 0.f, 0.f, 1.f);
+    scene = new Scene();
 }
 
 Camera::~Camera() {}
@@ -20,43 +21,70 @@ Camera::~Camera() {}
 
 void Camera::Render()
 {
-    float t = 2.f;
+    float t = 15;
     Vertex eye = eye0;
-
+    int inter = 0;
     for (int i = 0; i < width; ++i)
     {
         for (int j = 0; j < height; ++j)
         {
             Ray* pixelRay = new Ray();
+            float importance = 1;
+            pixelRay->importance = importance;
             screen[j][i].ray = pixelRay;
             pixelRay->start.vertex = eye.vertex;
             pixelRay->end.vertex = eye.vertex + t * (glm::vec4(0.0f, j * 0.0025f - 0.99875, i * 0.0025f - 0.99875, 1.0f) - eye.vertex);
-            scene.FindInstersections(pixelRay);
+            pixelRay->dir.dir = pixelRay->end.vertex - pixelRay->start.vertex;
 
-            ColorDbl color = BounceRay(pixelRay);
-            screen[j][i].colInt = color;
+            ColorDbl color;
+
+            int raysPerPixel = 25;
+            for (int k = 0; k < raysPerPixel; ++k) // number of rays per pixels
+            {
+                color.color += BounceRay(pixelRay).color;
+            }
+
+            color.color /= raysPerPixel;
+
             clrMax = glm::max(color.color.x, glm::max(color.color.y, color.color.z));
+            screen[j][i].colInt = color;
+
         }
     }
 }
 
 ColorDbl Camera::BounceRay(Ray* arg)
 {
+    scene->FindInstersections(arg);
     ColorDbl color;
-    for (int i = 0; i < 4; i++)
+    if (arg->hitTri == nullptr)
     {
-        if (arg->hitTri->material.type == diffuse) // TODO: this will be removed later.
-        {
-            color.color += arg->color.color;
-            break;
-        }
-        else
-        {
-            color.color += arg->hitTri->material.Hit(arg).color;
-            scene.FindInstersections(arg);
-        }
+        color = ColorDbl(); //This should never happend??
+        return color;
+    }
+    if (arg->hitTri->material.type == light)
+    {
+        color = arg->hitTri->material.color;
+        return color;
     }
 
+    Ray* out = arg->hitTri->material.Reflect(arg, scene);
+    double angle = glm::angle(out->dir.dir, arg->hitTri->GetNormal());
+
+    ColorDbl emission, lightContribution;
+    emission.color = arg->hitTri->material.Hit(arg, scene).color * cosf(angle);
+    lightContribution = scene->LaunchShadowRays(arg);
+
+    color.color += emission.color;
+    color.color *= lightContribution.color;
+
+    float russianRoulett = rand.GetRandomDouble(0.0, 1.0);
+    float clrMaxA = glm::max(emission.color.x, glm::max(emission.color.y, emission.color.z));
+
+    if (russianRoulett < clrMax)
+    {
+        color.color += BounceRay(out).color * (float)arg->hitTri->material.reflectionCoefficient;
+    }
     return color;
 }
 

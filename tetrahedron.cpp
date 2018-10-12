@@ -32,14 +32,12 @@ bool Tetrahedron::RayIntersection(Ray *arg)
     if (inters > 1)
     {
         arg->end = interRay.end;
-        arg->color = interRay.color;
         arg->hitTri = interRay.hitTri;
         return true;
     }
     else
     {
         arg->end = original.end;
-        arg->color = original.color;
         arg->hitTri = original.hitTri;
         return false;
     }

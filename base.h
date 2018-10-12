@@ -42,10 +42,7 @@ struct ColorDbl
         color.z = b;
     }
 
-    ColorDbl operator*(const float& rhs)
-    {
-        this->color * rhs;
-    };
+
 
     glm::vec3 color;
 };
@@ -55,10 +52,11 @@ struct Ray
     Ray(){}
     Vertex start;
     Vertex end;
-    Triangle* hitTri;
-    ColorDbl color;
-    glm::vec3 normal;
+    Triangle* hitTri = nullptr;
+    Direction dir;
     float t = INT32_MAX;
+    glm::mat4 pers;
+    float importance;
 };
 
 #endif //RAY_TRACER_BASE_H

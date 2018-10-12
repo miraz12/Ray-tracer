@@ -5,25 +5,34 @@
 #ifndef RAY_TRACER_MATERIAL_H
 #define RAY_TRACER_MATERIAL_H
 
+class Scene;
+
 enum ReflectionType
 {
-    diffuse,
+    lambertian,
     specular,
-    transparent
+    transparent,
+    light
 };
 
 #include "base.h"
+#include "random.h"
 
 class Material {
 public:
     Material();
     ~Material();
     Material(const ColorDbl& color, double reflection_coefficient, ReflectionType type);
-    ColorDbl Hit(Ray* arg);
+    
+    ColorDbl Hit(Ray* arg, Scene* s);
+    Ray* Material::Reflect(Ray* arg, Scene* s);
+
+    Ray* LambertianReflection(Ray* arg);
 
     ColorDbl color;
-    double reflectionCoefficient;
+    double reflectionCoefficient = 0.8;
     ReflectionType type;
+    Random rand;
 };
 
 

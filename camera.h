@@ -13,6 +13,7 @@ struct Pixel
     Pixel(){}
     
     ColorDbl colInt;
+    std::vector<Ray*> rays;
 
     Ray* ray;
 };
@@ -25,13 +26,16 @@ public:
     void Render();
     ColorDbl BounceRay(Ray* arg);
     void CreateImage();
+    void CreateRays();
 
 
 private:
     Vertex eye0, eye1;
     int eyeChoice = 0;
     float clrMax = 0;
-    Scene scene;
+    Scene* scene;
+    Random rand;
+
 
     //800 × 800
     static const int width = 800;

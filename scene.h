@@ -8,18 +8,21 @@
 #include "triangle.h"
 #include "tetrahedron.h"
 #include "sphere.h"
+#include "lightsource.h"
 
 class Scene {
 public:
     Scene();
     ~Scene();
     void FindInstersections(Ray* arg);
+    ColorDbl LaunchShadowRays(Ray* arg);
 
 private:
     Triangle scene[24];
     Vertex vertexlist[14];
     std::vector<Tetrahedron> tetras;
     std::vector<Sphere> spheres;
+    std::vector<LightSource> lights;
 
 
     //Tetra test

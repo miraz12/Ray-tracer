@@ -35,10 +35,9 @@ bool Sphere::RayIntersection(Ray* arg)
         if (t < arg->t)
         {
             arg->end.vertex = arg->start.vertex + glm::vec4(rayDir.dir, 1.0f) * t;
-            arg->color = infoTri->material.color;
             arg->hitTri = infoTri;
+            infoTri->Normal.dir = arg->end.vertex - center;
             arg->t = t;
-            arg->normal = arg->end.vertex - center;
             return true;
         }
         return false;

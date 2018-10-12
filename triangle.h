@@ -21,12 +21,15 @@ public:
     void SetTriangle(Vertex v1, Vertex v2, Vertex v3, Material m);
     void SetColor(float r, float g, float b);
     glm::vec3 GetNormal();
+    double Area();
+    glm::vec3 GetPointOnTri();
+
+    glm::vec3 FromBarycentric(glm::vec3 point);
     Material material;
+    Direction Normal;
 
 private:
     Vertex tri[3];
-    ColorDbl color;
-    Direction Normal;
 };
 
 
