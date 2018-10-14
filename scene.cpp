@@ -85,12 +85,12 @@ Scene::Scene()
     // |  \ |    \  |  \ |
     // |___\|______\|___\|
     // 1    5       6    4
-    this->scene[18].SetTriangle(vertexlist[8], vertexlist[1], vertexlist[5], yellow);
-    this->scene[19].SetTriangle(vertexlist[8], vertexlist[5], vertexlist[12], yellow);
-    this->scene[20].SetTriangle(vertexlist[6], vertexlist[5], vertexlist[12], yellow);
-    this->scene[21].SetTriangle(vertexlist[13], vertexlist[6], vertexlist[12], yellow);
-    this->scene[22].SetTriangle(vertexlist[4], vertexlist[6], vertexlist[13], yellow);
-    this->scene[23].SetTriangle(vertexlist[11], vertexlist[4], vertexlist[13], yellow);
+    this->scene[18].SetTriangle(vertexlist[8], vertexlist[1], vertexlist[5], white);
+    this->scene[19].SetTriangle(vertexlist[8], vertexlist[5], vertexlist[12], white);
+    this->scene[20].SetTriangle(vertexlist[6], vertexlist[5], vertexlist[12], white);
+    this->scene[21].SetTriangle(vertexlist[13], vertexlist[6], vertexlist[12], white);
+    this->scene[22].SetTriangle(vertexlist[4], vertexlist[6], vertexlist[13], white);
+    this->scene[23].SetTriangle(vertexlist[11], vertexlist[4], vertexlist[13], white);
 
 
     //Tetra
@@ -164,7 +164,7 @@ ColorDbl Scene::LaunchShadowRays(Ray* arg)
 
             //Geometric term
             float alpha = glm::dot(arg->hitTri->GetNormal(), shadowRay->dir.dir);
-            float b = glm::dot(lights[i].triangles[0].GetNormal(), shadowRay->dir.dir);
+            float b = glm::dot(lights[i].triangles[0].GetNormal(), -shadowRay->dir.dir);
             float beta = glm::clamp(b, 0.0f, 1.0f);
 
             float dist = glm::distance2(shadowRay->start.vertex, shadowRay->end.vertex);

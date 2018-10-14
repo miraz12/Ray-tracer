@@ -102,7 +102,7 @@ Ray* Material::LambertianReflection(Ray* arg)
     float xi = rand.GetRandomFloat(0.0, 1.0);
     float yj = rand.GetRandomFloat(0.0, 1.0);
 
-    glm::vec3 helper = arg->hitTri->GetNormal() + glm::vec3(1, 1, 1);
+    /*glm::vec3 helper = arg->hitTri->GetNormal() + glm::vec3(1, 1, 1);
     glm::vec3 tangent = glm::normalize(glm::cross(arg->hitTri->GetNormal(), helper));
     float inclination = acos(sqrt(xi));
     float azimuth = 2 * glm::pi<float>() * yj;
@@ -118,10 +118,10 @@ Ray* Material::LambertianReflection(Ray* arg)
     r->dir.dir = glm::vec3(glm::normalize(r->end.vertex - r->start.vertex));
     r->t = 15.f;
 
-    return r; 
+    return r; */
 
 
-    /*glm::vec3 v1 = glm::normalize(-arg->dir.dir - glm::dot(-arg->dir.dir, arg->hitTri->GetNormal()*arg->hitTri->GetNormal()));
+    glm::vec3 v1 = glm::normalize(-arg->dir.dir - glm::dot(-arg->dir.dir, arg->hitTri->GetNormal()*arg->hitTri->GetNormal()));
     glm::vec3 v2 = -glm::cross(v1, arg->hitTri->GetNormal());
     glm::vec3 v3 = arg->hitTri->GetNormal();
 
@@ -135,11 +135,10 @@ Ray* Material::LambertianReflection(Ray* arg)
 
     Ray* r = new Ray();
 
-
     r->start.vertex = arg->end.vertex;
     r->end.vertex = arg->start.vertex + glm::vec4(newraydir * 2.f, 1.0f);
     r->dir.dir = glm::normalize(r->end.vertex - r->start.vertex);
     r->t = 2.f;
 
-    return r;*/
+    return r;
 }

@@ -45,6 +45,11 @@ bool Triangle::RayInstersection(Ray* arg)
     {
         glm::vec4 intersection = arg->start.vertex + glm::vec4(rayDir.dir * t, 1.0f);
         arg->hitTri = this;
+        if (glm::dot(this->Normal.dir, rayDir.dir) > 0)
+        {
+            this->Normal.dir = this->Normal.dir * -1.f;
+        }
+
         arg->end.vertex = intersection;
         arg->t = t;
         return true;
