@@ -88,8 +88,8 @@ Scene::Scene()
     this->scene[19].SetTriangle(vertexlist[8], vertexlist[5], vertexlist[12], white);
     this->scene[20].SetTriangle(vertexlist[6], vertexlist[5], vertexlist[12], white);
     this->scene[21].SetTriangle(vertexlist[13], vertexlist[6], vertexlist[12], white);
-    this->scene[22].SetTriangle(vertexlist[13], vertexlist[6], vertexlist[4], white);
-    this->scene[23].SetTriangle(vertexlist[13], vertexlist[4], vertexlist[11], white);
+    this->scene[22].SetTriangle(vertexlist[4], vertexlist[6], vertexlist[13], white);
+    this->scene[23].SetTriangle(vertexlist[11], vertexlist[4], vertexlist[13], white);
 
 
     //Tetra
@@ -106,7 +106,7 @@ Scene::Scene()
     tetralist[3] = Vertex(5, 0, 1);
 
     ColorDbl pink(1, 0, 1);
-    Tetrahedron t(tetralist[0], tetralist[1], tetralist[2], tetralist[3], pink);
+    Tetrahedron t(tetralist[3], tetralist[2], tetralist[1], tetralist[0], pink);
     tetras.push_back(t);
 
     Material matSphere(ColorDbl(0.3, 0.3, 0.3), 1.5, lambertian);
@@ -153,7 +153,7 @@ ColorDbl Scene::LaunchShadowRays(Ray* arg)
             area += lights[i].triangles[0].Area();
             shadowRay->start.vertex = arg->end.vertex;
             shadowRay->end.vertex = glm::vec4(lights[i].triangles[0].GetPointOnTri(), 1);
-            shadowRay->dir.dir = glm::vec3(shadowRay->end.vertex - shadowRay->start.vertex);
+            shadowRay->dir.dir = shadowRay->end.vertex - shadowRay->start.vertex;
 
             FindInstersections(shadowRay);
             if (shadowRay->hitTri->material.type != light) //Check if point is blocked by any objects

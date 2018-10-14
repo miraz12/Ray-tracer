@@ -24,7 +24,7 @@ public:
     Camera();
     virtual ~Camera();
     void Render();
-    ColorDbl BounceRay(Ray* arg);
+    ColorDbl BounceRay(Ray* arg, int bounce);
     void CreateImage();
     void CreateRays();
 

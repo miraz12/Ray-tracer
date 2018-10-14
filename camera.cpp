@@ -41,7 +41,7 @@ void Camera::Render()
             int raysPerPixel = 2;
             for (int k = 0; k < raysPerPixel; ++k) // number of rays per pixels
             {
-                color.color += BounceRay(pixelRay).color;
+                color.color += BounceRay(pixelRay, 0).color;
             }
 
             color.color /= raysPerPixel;
@@ -53,7 +53,7 @@ void Camera::Render()
     }
 }
 
-ColorDbl Camera::BounceRay(Ray* arg)
+ColorDbl Camera::BounceRay(Ray* arg, int bounce)
 {
     scene->FindInstersections(arg);
     ColorDbl color;
@@ -81,9 +81,10 @@ ColorDbl Camera::BounceRay(Ray* arg)
     float russianRoulett = rand.GetRandomDouble(0.0, 1.0);
     float clrMaxA = glm::max(emission.color.x, glm::max(emission.color.y, emission.color.z));
 
-    if (russianRoulett < clrMax)
+    if ((russianRoulett < clrMax) || (bounce <= 2))
     {
-        color.color += BounceRay(out).color * (float)arg->hitTri->material.reflectionCoefficient;
+        out->t = 1000;
+        color.color += BounceRay(out, ++bounce).color * (float)arg->hitTri->material.reflectionCoefficient;
     }
     return color;
 }
