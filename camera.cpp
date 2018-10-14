@@ -41,6 +41,10 @@ void Camera::Render()
             int raysPerPixel = 2;
             for (int k = 0; k < raysPerPixel; ++k) // number of rays per pixels
             {
+                pixelRay->start.vertex = eye.vertex;
+                pixelRay->end.vertex = eye.vertex + t * (glm::vec4(0.0f, j * 0.0025f - 0.99875, i * 0.0025f - 0.99875, 1.0f) - eye.vertex);
+                pixelRay->dir.dir = glm::vec3(pixelRay->end.vertex - pixelRay->start.vertex);
+                pixelRay->t = 15;
                 color.color += BounceRay(pixelRay, 0).color;
             }
 
@@ -81,9 +85,8 @@ ColorDbl Camera::BounceRay(Ray* arg, int bounce)
     float russianRoulett = rand.GetRandomDouble(0.0, 1.0);
     float clrMaxA = glm::max(emission.color.x, glm::max(emission.color.y, emission.color.z));
 
-    if ((russianRoulett < clrMax) || (bounce <= 2))
+    if ((russianRoulett < clrMax) && (bounce <= 2))
     {
-        out->t = 1000;
         color.color += BounceRay(out, ++bounce).color * (float)arg->hitTri->material.reflectionCoefficient;
     }
     return color;
