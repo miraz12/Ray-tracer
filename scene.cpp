@@ -23,10 +23,11 @@ Scene::Scene()
     vertexlist[12] = Vertex(0.0f, -6.0f, 5.0f);
     vertexlist[13] = Vertex(10.0f, -6.0f, 5.0f);
 
-    ColorDbl red(1.f, 0, 0);
-    ColorDbl blue(0, 0, 1.f);
-    ColorDbl white(1.f, 1.f, 1.f);
-    ColorDbl green(0, 1.f, 0);
+    ColorDbl red(0.1f, 0, 0);
+    ColorDbl blue(0, 0, 0.1f);
+    ColorDbl white(0.1, 0.1f, 0.1f);
+    ColorDbl yellow(0.1, 0.1f, 0.f);
+    ColorDbl green(0, 0.1f, 0);
 
     //Floor
     //    0_____3
@@ -84,12 +85,12 @@ Scene::Scene()
     // |  \ |    \  |  \ |
     // |___\|______\|___\|
     // 1    5       6    4
-    this->scene[18].SetTriangle(vertexlist[8], vertexlist[1], vertexlist[5], white);
-    this->scene[19].SetTriangle(vertexlist[8], vertexlist[5], vertexlist[12], white);
-    this->scene[20].SetTriangle(vertexlist[6], vertexlist[5], vertexlist[12], white);
-    this->scene[21].SetTriangle(vertexlist[13], vertexlist[6], vertexlist[12], white);
-    this->scene[22].SetTriangle(vertexlist[4], vertexlist[6], vertexlist[13], white);
-    this->scene[23].SetTriangle(vertexlist[11], vertexlist[4], vertexlist[13], white);
+    this->scene[18].SetTriangle(vertexlist[8], vertexlist[1], vertexlist[5], yellow);
+    this->scene[19].SetTriangle(vertexlist[8], vertexlist[5], vertexlist[12], yellow);
+    this->scene[20].SetTriangle(vertexlist[6], vertexlist[5], vertexlist[12], yellow);
+    this->scene[21].SetTriangle(vertexlist[13], vertexlist[6], vertexlist[12], yellow);
+    this->scene[22].SetTriangle(vertexlist[4], vertexlist[6], vertexlist[13], yellow);
+    this->scene[23].SetTriangle(vertexlist[11], vertexlist[4], vertexlist[13], yellow);
 
 
     //Tetra
@@ -109,7 +110,7 @@ Scene::Scene()
     Tetrahedron t(tetralist[3], tetralist[2], tetralist[1], tetralist[0], pink);
     tetras.push_back(t);
 
-    Material matSphere(ColorDbl(0.3, 0.3, 0.3), 1.5, lambertian);
+    Material matSphere(ColorDbl(0, 1., 1.), 1.5, lambertian);
     Triangle* infoTri = new Triangle();
     Vertex tv(0.0, 0.0, 0.0, 1);
     infoTri->SetTriangle(tv, tv, tv, matSphere);
