@@ -90,9 +90,9 @@ Ray* Material::Reflect(Ray* arg, Scene* s)
         s->FindInstersections(arg);
         return arg->hitTri->material.Hit(arg, s, ++iter);*/
     }
-    if (light)
+    else 
     {
-        ///return color;
+        return arg;
     }
 
 }
