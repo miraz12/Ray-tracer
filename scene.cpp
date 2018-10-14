@@ -154,7 +154,7 @@ ColorDbl Scene::LaunchShadowRays(Ray* arg)
             area += lights[i].triangles[0].Area();
             shadowRay->start.vertex = arg->end.vertex;
             shadowRay->end.vertex = glm::vec4(lights[i].triangles[0].GetPointOnTri(), 1);
-            shadowRay->dir.dir = glm::vec3(shadowRay->end.vertex - shadowRay->start.vertex);
+            shadowRay->dir.dir = glm::normalize(glm::vec3(shadowRay->end.vertex - shadowRay->start.vertex));
 
             FindInstersections(shadowRay);
             if (shadowRay->hitTri->material.type != light) //Check if point is blocked by any objects
