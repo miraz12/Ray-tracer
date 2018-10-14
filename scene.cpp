@@ -50,16 +50,16 @@ Scene::Scene()
     //    \/___\/
     //    12    13
     LightSource light;
-    this->scene[6].SetTriangle(vertexlist[7], vertexlist[8], vertexlist[9], green);
+    this->scene[6].SetTriangle(vertexlist[9], vertexlist[8], vertexlist[7], green);
     //Light--
     light.SetLight(vertexlist[7], vertexlist[9], vertexlist[10], white);
     lights.push_back(light);
     //this->scene[7].SetTriangle(vertexlist[7], vertexlist[9], vertexlist[10], green); 
     //-------
-    this->scene[8].SetTriangle(vertexlist[10], vertexlist[9], vertexlist[11], green);
-    this->scene[9].SetTriangle(vertexlist[8], vertexlist[12], vertexlist[9], green);
-    this->scene[10].SetTriangle(vertexlist[9], vertexlist[12], vertexlist[13], green);
-    this->scene[11].SetTriangle(vertexlist[9], vertexlist[13], vertexlist[11], green);
+    this->scene[8].SetTriangle(vertexlist[11], vertexlist[9], vertexlist[10], green);
+    this->scene[9].SetTriangle(vertexlist[9], vertexlist[12], vertexlist[8], green);
+    this->scene[10].SetTriangle(vertexlist[13], vertexlist[12], vertexlist[9], green);
+    this->scene[11].SetTriangle(vertexlist[11], vertexlist[13], vertexlist[9], green);
 
     //Wall1
     // 8____7_______10___11
