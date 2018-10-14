@@ -115,7 +115,7 @@ Ray* Material::LambertianReflection(Ray* arg)
     newDir = glm::normalize(glm::rotate(newDir, azimuth, arg->hitTri->GetNormal()));
     r->start.vertex = arg->end.vertex;
     r->end.vertex = arg->start.vertex + glm::vec4(newDir * 15.f, 1.0f);
-    r->dir.dir = glm::normalize(r->end.vertex - r->start.vertex);
+    r->dir.dir = glm::vec3(glm::normalize(r->end.vertex - r->start.vertex));
     r->t = 15.f;
 
     return r; 

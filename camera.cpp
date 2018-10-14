@@ -22,7 +22,7 @@ Camera::~Camera() {}
 void Camera::Render()
 {
     float t = 15;
-    Vertex eye = eye1;
+    Vertex eye = eye0;
     int inter = 0;
     for (int i = 0; i < width; ++i)
     {
@@ -34,11 +34,11 @@ void Camera::Render()
             screen[j][i].ray = pixelRay;
             pixelRay->start.vertex = eye.vertex;
             pixelRay->end.vertex = eye.vertex + t * (glm::vec4(0.0f, j * 0.0025f - 0.99875, i * 0.0025f - 0.99875, 1.0f) - eye.vertex);
-            pixelRay->dir.dir = pixelRay->end.vertex - pixelRay->start.vertex;
+            pixelRay->dir.dir = glm::vec3(pixelRay->end.vertex - pixelRay->start.vertex);
 
             ColorDbl color;
 
-            int raysPerPixel = 25;
+            int raysPerPixel = 2;
             for (int k = 0; k < raysPerPixel; ++k) // number of rays per pixels
             {
                 color.color += BounceRay(pixelRay).color;

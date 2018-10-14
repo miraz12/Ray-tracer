@@ -58,8 +58,8 @@ void Triangle::SetTriangle(Vertex v1, Vertex v2, Vertex v3)
     tri[0] = v1;
     tri[1] = v2;
     tri[2] = v3;
-    glm::vec3 e1 = tri[1].vertex - tri[0].vertex;
-    glm::vec3 e2 = tri[2].vertex - tri[0].vertex;
+    glm::vec3 e1 = glm::vec3(tri[1].vertex - tri[0].vertex);
+    glm::vec3 e2 = glm::vec3(tri[2].vertex - tri[0].vertex);
     material = Material(ColorDbl(0, 0, 0), 1.0f, lambertian);
     Normal.dir = glm::normalize(glm::cross(e1, e2));
 }
@@ -70,8 +70,8 @@ void Triangle::SetTriangle(Vertex v1, Vertex v2, Vertex v3, ColorDbl c)
     tri[1] = v2;
     tri[2] = v3;
     material = Material(c, 1.0f, lambertian);
-    glm::vec3 e1 = tri[1].vertex - tri[0].vertex;
-    glm::vec3 e2 = tri[2].vertex - tri[0].vertex;
+    glm::vec3 e1 = glm::vec3(tri[1].vertex - tri[0].vertex);
+    glm::vec3 e2 = glm::vec3(tri[2].vertex - tri[0].vertex);
     Normal.dir = glm::normalize(glm::cross(e1, e2));
 }
 
@@ -81,8 +81,8 @@ void Triangle::SetTriangle(Vertex v1, Vertex v2, Vertex v3, Material m)
     tri[1] = v2;
     tri[2] = v3;
     material = m;
-    glm::vec3 e1 = tri[1].vertex - tri[0].vertex;
-    glm::vec3 e2 = tri[2].vertex - tri[0].vertex;
+    glm::vec3 e1 = glm::vec3(tri[1].vertex - tri[0].vertex);
+    glm::vec3 e2 = glm::vec3(tri[2].vertex - tri[0].vertex);
     Normal.dir = glm::normalize(glm::cross(e1, e2));
 }
 
@@ -93,8 +93,8 @@ glm::vec3 Triangle::GetNormal()
 
 double Triangle::Area()
 {
-    glm::vec3 e1 = tri[1].vertex - tri[0].vertex;
-    glm::vec3 e2 = tri[2].vertex - tri[0].vertex;
+    glm::vec3 e1 = glm::vec3(tri[1].vertex - tri[0].vertex);
+    glm::vec3 e2 = glm::vec3(tri[2].vertex - tri[0].vertex);
     return glm::length(glm::cross(e1, e2));
 }
 
@@ -113,7 +113,7 @@ glm::vec3 Triangle::GetPointOnTri()
     float c = 1 - a - b;
 
     glm::vec4 point = c * tri[0].vertex + a * tri[1].vertex + b * tri[2].vertex;
-    return FromBarycentric(point);
+    return FromBarycentric(glm::vec3(point));
 
 }
 
