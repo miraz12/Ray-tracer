@@ -22,7 +22,7 @@ Camera::~Camera() {}
 void Camera::Render()
 {
     float t = 15;
-    Vertex eye = eye0;
+    Vertex eye = eye1;
     int inter = 0;
     for (int i = 0; i < width; ++i)
     {

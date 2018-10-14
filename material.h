@@ -25,7 +25,7 @@ public:
     Material(const ColorDbl& color, double reflection_coefficient, ReflectionType type);
     
     ColorDbl Hit(Ray* arg, Scene* s);
-    Ray* Material::Reflect(Ray* arg, Scene* s);
+    Ray* Reflect(Ray* arg, Scene* s);
 
     Ray* LambertianReflection(Ray* arg);
 

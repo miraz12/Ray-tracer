@@ -86,8 +86,8 @@ Scene::Scene()
     // 1    5       6    4
     this->scene[18].SetTriangle(vertexlist[8], vertexlist[1], vertexlist[5], white);
     this->scene[19].SetTriangle(vertexlist[8], vertexlist[5], vertexlist[12], white);
-    this->scene[20].SetTriangle(vertexlist[12], vertexlist[5], vertexlist[6], white);
-    this->scene[21].SetTriangle(vertexlist[12], vertexlist[6], vertexlist[13], white);
+    this->scene[20].SetTriangle(vertexlist[6], vertexlist[5], vertexlist[12], white);
+    this->scene[21].SetTriangle(vertexlist[13], vertexlist[6], vertexlist[12], white);
     this->scene[22].SetTriangle(vertexlist[13], vertexlist[6], vertexlist[4], white);
     this->scene[23].SetTriangle(vertexlist[13], vertexlist[4], vertexlist[11], white);
 
@@ -103,7 +103,7 @@ Scene::Scene()
     tetralist[0] = Vertex(4, -1, 0);
     tetralist[1] = Vertex(4, 0, 0);
     tetralist[2] = Vertex(3, 1, 0);
-    tetralist[3] = Vertex(5, 0, -1);
+    tetralist[3] = Vertex(5, 0, 1);
 
     ColorDbl pink(1, 0, 1);
     Tetrahedron t(tetralist[0], tetralist[1], tetralist[2], tetralist[3], pink);
