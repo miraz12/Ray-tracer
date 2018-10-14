@@ -23,11 +23,11 @@ Scene::Scene()
     vertexlist[12] = Vertex(0.0f, -6.0f, 5.0f);
     vertexlist[13] = Vertex(10.0f, -6.0f, 5.0f);
 
-    ColorDbl red(0.1f, 0, 0);
-    ColorDbl blue(0, 0, 0.1f);
-    ColorDbl white(0.1, 0.1f, 0.1f);
-    ColorDbl yellow(0.1, 0.1f, 0.f);
-    ColorDbl green(0, 0.1f, 0);
+    ColorDbl red(1.f, 0, 0);
+    ColorDbl blue(0, 0, 1.f);
+    ColorDbl white(1., 1.f, 1.f);
+    ColorDbl yellow(1., 1., 0.);
+    ColorDbl green(0, 1.0f, 0);
 
     //Floor
     //    0_____3
