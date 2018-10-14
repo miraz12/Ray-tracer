@@ -149,7 +149,7 @@ ColorDbl Scene::LaunchShadowRays(Ray* arg)
     Ray* shadowRay = new Ray();
     for (int i = 0; i < lights.size(); ++i)
     {
-        for (int j = 0; j < 2; ++j) // number of shadowrays henerated
+        for (int j = 0; j < 4; ++j) // number of shadowrays henerated
         {
             area += lights[i].triangles[0].Area();
             shadowRay->start.vertex = arg->end.vertex;
@@ -168,7 +168,7 @@ ColorDbl Scene::LaunchShadowRays(Ray* arg)
             float beta = glm::clamp(b, 0.0f, 1.0f);
 
             float dist = glm::distance2(shadowRay->start.vertex, shadowRay->end.vertex);
-            float geometric = alpha * beta / dist;
+            float geometric = alpha * beta / pow(dist, 2.0);
 
             lightContri.color += lights[i].color.color * lights[i].emission * geometric;
 

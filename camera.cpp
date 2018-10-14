@@ -22,7 +22,7 @@ Camera::~Camera() {}
 void Camera::Render()
 {
     float t = 15;
-    Vertex eye = eye0;
+    Vertex eye = eye1;
     int inter = 0;
     for (int i = 0; i < width; ++i)
     {
@@ -38,7 +38,7 @@ void Camera::Render()
 
             ColorDbl color;
 
-            int raysPerPixel = 25;
+            int raysPerPixel = 2;
             for (int k = 0; k < raysPerPixel; ++k) // number of rays per pixels
             {
                 pixelRay->start.vertex = eye.vertex;
