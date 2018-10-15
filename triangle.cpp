@@ -10,7 +10,7 @@ Triangle::~Triangle() {}
 
 bool Triangle::RayInstersection(Ray* arg)
 {
-    const float EPSILON = 0.0000001;
+    const double EPSILON = 1e-27;
     Vertex vertex0 = tri[0];
     Vertex vertex1 = tri[1];
     Vertex vertex2 = tri[2];
@@ -40,10 +40,10 @@ bool Triangle::RayInstersection(Ray* arg)
     if (v < 0.0 || u + v > 1.0)
         return false;
 
-    float t = f * glm::dot(edge2, q);
+    double t = f * glm::dot(edge2, q);
     if (t > EPSILON) // ray intersection
     {
-        glm::vec4 intersection = arg->start.vertex + glm::vec4(rayDir.dir * t, 1.0f);
+        glm::vec4 intersection = arg->start.vertex + glm::vec4(rayDir.dir * (float)t, 1.0f);
         arg->hitTri = this;
         if (glm::dot(this->Normal.dir, rayDir.dir) > 0)
         {
@@ -107,15 +107,14 @@ glm::vec3 Triangle::GetPointOnTri()
 {
     Random rand;
     float area = Area();
-    float a = rand.GetRandomFloat(0.0, 0.1);
+    float a = rand.GetRandomFloat(0.0, 1.0);
     float b = rand.GetRandomFloat(0.0, 1.0);
-    if (a + b > 1.0)
-    {
-        a = 1 - a;
-        b = 1 - b;
-    }
+    float c = rand.GetRandomFloat(0.0, 1.0);
 
-    float c = 1 - a - b;
+    float abc = a + b + c;
+    a /= abc;
+    b /= abc;
+    c /= abc;
 
     glm::vec4 point = c * tri[0].vertex + a * tri[1].vertex + b * tri[2].vertex;
     return FromBarycentric(glm::vec3(point));
