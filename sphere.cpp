@@ -36,12 +36,11 @@ bool Sphere::RayIntersection(Ray* arg)
         {
             arg->end.vertex = arg->start.vertex + glm::vec4(rayDir.dir, 1.0f) * t;
             arg->hitTri = infoTri;
-            infoTri->Normal.dir = glm::vec3(arg->end.vertex - center);
+            infoTri->Normal.dir = glm::normalize(glm::vec3(arg->end.vertex - center));
             if (glm::dot(infoTri->Normal.dir, rayDir.dir) > 0)
             {
                 infoTri->Normal.dir = infoTri->Normal.dir * -1.f;
             }
-            infoTri->Normal.dir = glm::vec3(arg->end.vertex - center);
             arg->t = t;
             return true;
         }
