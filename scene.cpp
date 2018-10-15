@@ -85,8 +85,8 @@ Scene::Scene()
     // |  \ |    \  |  \ |
     // |___\|______\|___\|
     // 1    5       6    4
-    this->scene[18].SetTriangle(vertexlist[8], vertexlist[1], vertexlist[5], white);
-    this->scene[19].SetTriangle(vertexlist[8], vertexlist[5], vertexlist[12], white);
+    this->scene[18].SetTriangle(vertexlist[5], vertexlist[1], vertexlist[8], white);
+    this->scene[19].SetTriangle(vertexlist[12], vertexlist[5], vertexlist[8], white);
     this->scene[20].SetTriangle(vertexlist[6], vertexlist[5], vertexlist[12], white);
     this->scene[21].SetTriangle(vertexlist[13], vertexlist[6], vertexlist[12], white);
     this->scene[22].SetTriangle(vertexlist[4], vertexlist[6], vertexlist[13], white);
@@ -153,8 +153,8 @@ ColorDbl Scene::LaunchShadowRays(Ray* arg)
         {
             area += lights[i].triangles[0].Area();
             shadowRay->start.vertex = arg->end.vertex;
-            shadowRay->end.vertex = glm::vec4(lights[i].triangles[0].GetPointOnTri(), 1);
-            shadowRay->dir.dir = glm::normalize(glm::vec3(shadowRay->end.vertex - shadowRay->start.vertex));
+            shadowRay->dir.dir = glm::normalize(glm::vec4(lights[i].triangles[0].GetPointOnTri(), 1) - shadowRay->start.vertex);
+            shadowRay->end.vertex = shadowRay->start.vertex + 100.f * glm::vec4(shadowRay->dir.dir, 0);
 
             FindInstersections(shadowRay);
             if (shadowRay->hitTri->material.type != light) //Check if point is blocked by any objects

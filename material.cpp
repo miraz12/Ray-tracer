@@ -136,9 +136,9 @@ Ray* Material::LambertianReflection(Ray* arg)
     Ray* r = new Ray();
 
     r->start.vertex = arg->end.vertex;
-    r->end.vertex = arg->start.vertex + glm::vec4(newraydir * 2.f, 1.0f);
+    r->end.vertex = arg->start.vertex + glm::vec4(newraydir * 100.f, 0.0f);
     r->dir.dir = glm::vec3(glm::normalize(r->end.vertex - r->start.vertex));
-    r->t = 2.f;
+    r->t = 100.f;
 
     return r;
 }

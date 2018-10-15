@@ -21,7 +21,7 @@ Camera::~Camera() {}
 
 void Camera::Render()
 {
-    float t = 15;
+    float t = 100;
     Vertex eye = eye1;
     int inter = 0;
     for (int i = 0; i < width; ++i)
@@ -31,18 +31,18 @@ void Camera::Render()
             Ray* pixelRay = new Ray();
             screen[j][i].ray = pixelRay;
             pixelRay->start.vertex = eye.vertex;
-            pixelRay->end.vertex = eye.vertex + t * (glm::vec4(0.0f, j * 0.0025f - 0.99875, i * 0.0025f - 0.99875, 1.0f) - eye.vertex);
+            pixelRay->end.vertex = eye.vertex + t * (glm::vec4(0.0f, j * 0.0025f - 0.99875, i * 0.0025f - 0.99875, 0.0f) - eye.vertex);
             pixelRay->dir.dir = glm::normalize(glm::vec3(pixelRay->end.vertex - pixelRay->start.vertex));
 
             ColorDbl color;
 
-            int raysPerPixel = 5;
+            int raysPerPixel = 25;
             for (int k = 0; k < raysPerPixel; ++k) // number of rays per pixels
             {
                 pixelRay->start.vertex = eye.vertex;
-                pixelRay->end.vertex = eye.vertex + t * (glm::vec4(0.0f, j * 0.0025f - 0.99875, i * 0.0025f - 0.99875, 1.0f) - eye.vertex);
+                pixelRay->end.vertex = eye.vertex + t * (glm::vec4(0.0f, j * 0.0025f - 0.99875, i * 0.0025f - 0.99875, 0.0f) - eye.vertex);
                 pixelRay->dir.dir = glm::normalize(glm::vec3(pixelRay->end.vertex - pixelRay->start.vertex));
-                pixelRay->t = 15;
+                pixelRay->t = t;
                 color.color += BounceRay(pixelRay, 0).color;
             }
 
