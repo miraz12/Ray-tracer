@@ -54,7 +54,7 @@ bool Triangle::RayInstersection(Ray* arg)
         arg->t = t;
         return true;
     }
-    else 
+    else
         return false;
 }
 
@@ -105,18 +105,18 @@ double Triangle::Area()
 
 glm::vec3 Triangle::GetPointOnTri()
 {
-    Random rand;
-    float area = Area();
-    float a = rand.GetRandomFloat(0.0, 1.0);
-    float b = rand.GetRandomFloat(0.0, 1.0);
-    float c = rand.GetRandomFloat(0.0, 1.0);
+Random rand;
+    float a = rand.GetRandomFloat(0.0, 1.0f);
+    float b = rand.GetRandomFloat(0.0, 1.0f);
+    if (a + b > 1.0)
+    {
+        a = 1 - a;
+        b = 1 - b;
+    }
 
-    float abc = a + b + c;
-    a /= abc;
-    b /= abc;
-    c /= abc;
+    float c = 1 - a - b;
 
-    glm::vec4 point = c * tri[0].vertex + a * tri[1].vertex + b * tri[2].vertex;
+    glm::vec4 point = c * tri[2].vertex + a * tri[1].vertex + b * tri[0].vertex;
     return FromBarycentric(glm::vec3(point));
 
 }
