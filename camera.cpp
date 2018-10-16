@@ -85,7 +85,7 @@ ColorDbl Camera::BounceRay(Ray* arg, int bounce)
     float russianRoulett = rand.GetRandomDouble(0.0, 1.0);
     float clrMaxA = glm::max(emission.color.x, glm::max(emission.color.y, emission.color.z));
 
-    if ((russianRoulett < clrMaxA) && bounce < 3 )
+    if ((russianRoulett < clrMaxA && bounce < 20) || bounce < 4 )
     {
         color.color += BounceRay(out, ++bounce).color;
     }
