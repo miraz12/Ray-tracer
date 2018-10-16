@@ -10,7 +10,7 @@ Random::Random()
 
 double Random::GetRandomDouble(double min, double max)
 {
-    std::uniform_real_distribution<float> dist(min, max);
+    std::uniform_real_distribution<double> dist(min, max);
     return dist(generator);
 }
 

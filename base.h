@@ -55,7 +55,6 @@ struct Ray
     Triangle* hitTri = nullptr;
     Direction dir;
     float t = INT32_MAX;
-    glm::vec3 normal;
 };
 
 #endif //RAY_TRACER_BASE_H

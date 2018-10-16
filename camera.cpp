@@ -22,7 +22,7 @@ Camera::~Camera() {}
 void Camera::Render()
 {
     float t = 100;
-    Vertex eye = eye1;
+    Vertex eye = eye0;
     int inter = 0;
     Ray* pixelRay = new Ray();
     for (int i = 0; i < width; ++i)
@@ -87,9 +87,9 @@ ColorDbl Camera::BounceRay(Ray* arg, int bounce)
     float russianRoulett = rand.GetRandomDouble(0.0, 1.0);
     float clrMaxA = glm::max(emission.color.x, glm::max(emission.color.y, emission.color.z));
 
-    if ((russianRoulett < clrMaxA) && (bounce < 3 ))
+    if ((russianRoulett < clrMaxA) && bounce < 3 )
     {
-        color.color += BounceRay(out, ++bounce).color * (float)arg->hitTri->material.reflectionCoefficient;
+        color.color += BounceRay(out, ++bounce).color;
     }
 
     return color;

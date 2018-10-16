@@ -31,18 +31,12 @@ ColorDbl Material::Hit(Ray* arg, Scene* s)
     if (type == lambertian)
     {
         ColorDbl c;
-        c.color = color.color / glm::pi<float>();
+        c.color = color.color * (float)reflectionCoefficient / glm::pi<float>();
         return c;
     }
     if (type == specular)
     {
-       /* Direction dir;
-        dir.dir = arg->end.vertex - arg->start.vertex;
-        glm::vec3 newDir = glm::reflect(dir.dir, arg->normal);
-        arg->start.vertex = arg->end.vertex;
-        arg->end.vertex = arg->start.vertex + 2.0f * glm::vec4(newDir, 1.0f) - arg->start.vertex;
-        s->FindInstersections(arg);
-        return arg->hitTri->material.Hit(arg, s, ++iter);*/
+        return color;
     }
     if(transparent)//Transparent, Snell's law
     {
@@ -71,13 +65,17 @@ Ray* Material::Reflect(Ray* arg, Scene* s)
     }
     if (type == specular)
     {
-        /* Direction dir;
-        dir.dir = arg->end.vertex - arg->start.vertex;
-        glm::vec3 newDir = glm::reflect(dir.dir, arg->normal);
-        arg->start.vertex = arg->end.vertex;
-        arg->end.vertex = arg->start.vertex + 2.0f * glm::vec4(newDir, 1.0f) - arg->start.vertex;
-        s->FindInstersections(arg);
-        return arg->hitTri->material.Hit(arg, s, ++iter);*/
+        Ray* r = new Ray();
+        Direction dir;
+        dir.dir = glm::normalize(arg->end.vertex - arg->start.vertex);
+        glm::vec3 newDir = glm::reflect(dir.dir, arg->hitTri->Normal.dir);
+        if (glm::dot(newDir, arg->dir.dir) > 0)
+        {
+            newDir *= -1;
+        }
+        r->start.vertex = arg->end.vertex;
+        r->end.vertex = r->start.vertex + 100.0f * glm::vec4(newDir, 1.0f);
+        return r;
     }
     if (transparent)//Transparent, Snell's law
     {
@@ -101,25 +99,6 @@ Ray* Material::LambertianReflection(Ray* arg)
 {
     float xi = rand.GetRandomFloat(0.0, 1.0);
     float yj = rand.GetRandomFloat(0.0, 1.0);
-
-    /*glm::vec3 helper = arg->hitTri->GetNormal() + glm::vec3(1, 1, 1);
-    glm::vec3 tangent = glm::normalize(glm::cross(arg->hitTri->GetNormal(), helper));
-    float inclination = acos(sqrt(xi));
-    float azimuth = 2 * glm::pi<float>() * yj;
-
-    glm::vec3 newDir = arg->hitTri->GetNormal();
-
-    Ray* r = new Ray();
-
-    newDir = glm::normalize(glm::rotate(newDir, inclination, tangent));
-    newDir = glm::normalize(glm::rotate(newDir, azimuth, arg->hitTri->GetNormal()));
-    r->start.vertex = arg->end.vertex;
-    r->end.vertex = arg->start.vertex + glm::vec4(newDir * 15.f, 1.0f);
-    r->dir.dir = glm::vec3(glm::normalize(r->end.vertex - r->start.vertex));
-    r->t = 15.f;
-
-    return r; */
-
 
     glm::vec3 v1 = glm::normalize(-arg->dir.dir - glm::dot(-arg->dir.dir, arg->hitTri->GetNormal()*arg->hitTri->GetNormal()));
     glm::vec3 v2 = -glm::cross(v1, arg->hitTri->GetNormal());
