@@ -17,6 +17,7 @@ class Sphere
 {
 
 public:
+    Sphere() = default;
     Sphere(const glm::vec4 center, float radius);
     Sphere(const glm::vec4 center, float radius, Triangle* infoTri);
     bool RayIntersection(Ray* arg);

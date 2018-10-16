@@ -149,8 +149,7 @@ ColorDbl Scene::LaunchShadowRays(Ray* arg)
     Ray* shadowRay = new Ray();
     for (int i = 0; i < lights.size(); ++i)
     {
-        for (int j = 0; j < 4; ++j) // number of shadowrays henerated
-        {
+       
             area += lights[i].triangles[0].Area();
             shadowRay->start.vertex = arg->end.vertex;
             shadowRay->dir.dir = glm::normalize(glm::vec4(lights[i].triangles[0].GetPointOnTri(), 1) - shadowRay->start.vertex);
@@ -163,7 +162,7 @@ ColorDbl Scene::LaunchShadowRays(Ray* arg)
             }
 
             //Geometric term
-            float alpha = glm::dot(-arg->hitTri->GetNormal(), shadowRay->dir.dir);
+            float alpha = glm::dot(arg->hitTri->GetNormal(), shadowRay->dir.dir);
             float b = glm::dot(lights[i].triangles[0].GetNormal(), -shadowRay->dir.dir);
             float beta = glm::clamp(b, 0.0f, 1.0f);
 
@@ -174,7 +173,6 @@ ColorDbl Scene::LaunchShadowRays(Ray* arg)
 
             lightContri.color += lights[i].color.color * lights[i].emission * geometric;
 
-        }
     }
 
     delete(shadowRay);
