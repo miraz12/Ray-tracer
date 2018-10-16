@@ -13,9 +13,6 @@ struct Pixel
     Pixel(){}
     
     ColorDbl colInt;
-    std::vector<Ray*> rays;
-
-    Ray* ray;
 };
 
 class Camera {

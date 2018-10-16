@@ -23,13 +23,11 @@ void Camera::Render()
 {
     float t = 100;
     Vertex eye = eye0;
-    int inter = 0;
     Ray* pixelRay = new Ray();
     for (int i = 0; i < width; ++i)
     {
         for (int j = 0; j < height; ++j)
         {
-            screen[j][i].ray = pixelRay;
             pixelRay->start.vertex = eye.vertex;
             pixelRay->end.vertex = eye.vertex + t * (glm::vec4(0.0f, j * 0.0025f - 0.99875, i * 0.0025f - 0.99875, 0.0f) - eye.vertex);
             pixelRay->dir.dir = glm::normalize(glm::vec3(pixelRay->end.vertex - pixelRay->start.vertex));
@@ -91,7 +89,7 @@ ColorDbl Camera::BounceRay(Ray* arg, int bounce)
     {
         color.color += BounceRay(out, ++bounce).color;
     }
-
+    delete(out);
     return color;
 }
 
