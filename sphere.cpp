@@ -12,7 +12,66 @@ Sphere::Sphere(const glm::vec4 center, float radius, Triangle* tri) : center(cen
 
 bool Sphere::RayIntersection(Ray* arg)
 {
+    const float EPSILON = 0.001f;
 
+    glm::vec3 dir = glm::normalize(arg->end.vertex - arg->start.vertex);
+    glm::vec3 offset = arg->start.vertex - center;
+    double a = glm::dot(dir, dir);
+    double b = 2 * glm::dot(offset, dir);
+    double c = glm::dot(offset, offset) - radius * radius;
+
+    double disc = b * b - 4 * a *c;
+
+    if (disc < 0 )
+    {
+        return false;
+    }
+
+
+    disc = sqrt(disc);
+
+    double t = -b - disc;
+    if (t > EPSILON)
+    {
+        t /= 2;
+
+        if (t < arg->t)
+        {
+            arg->end.vertex = arg->start.vertex + glm::vec4(dir, 1.0f) * (float)t;
+            arg->hitTri = infoTri;
+            infoTri->Normal.dir = glm::normalize(glm::vec3(arg->end.vertex - center));
+            if (glm::dot(infoTri->Normal.dir, dir) > 0)
+            {
+                infoTri->Normal.dir = infoTri->Normal.dir * -1.f;
+            }
+            arg->t = t;
+            return true;
+        }
+    }
+    t = -b + disc;
+    if (t > EPSILON)
+    {
+        t /= 2;
+
+        if (t < arg->t)
+        {
+            arg->end.vertex = arg->start.vertex + glm::vec4(dir, 1.0f) * (float)t;
+            arg->hitTri = infoTri;
+            infoTri->Normal.dir = glm::normalize(glm::vec3(arg->end.vertex - center));
+            if (glm::dot(infoTri->Normal.dir, dir) > 0)
+            {
+                infoTri->Normal.dir = infoTri->Normal.dir * -1.f;
+            }
+            arg->t = t;
+            return true;
+        }
+    }
+
+    return false;
+
+
+
+    /*
     float t; 
     float radius2 = radius * radius;
     Direction rayDir;
@@ -37,20 +96,23 @@ bool Sphere::RayIntersection(Ray* arg)
     }
 
     t = t0;
-    if (t < arg->t)
+    if (t > 0.1) // ray intersection
     {
-        arg->end.vertex = arg->start.vertex + glm::vec4(rayDir.dir, 1.0f) * t;
-        arg->hitTri = infoTri;
-        infoTri->Normal.dir = glm::normalize(glm::vec3(arg->end.vertex - center));
-        if (glm::dot(infoTri->Normal.dir, rayDir.dir) > 0)
+        if (t < arg->t)
         {
-            infoTri->Normal.dir = infoTri->Normal.dir * -1.f;
+            arg->end.vertex = arg->start.vertex + glm::vec4(rayDir.dir, 1.0f) * t;
+            arg->hitTri = infoTri;
+            infoTri->Normal.dir = glm::normalize(glm::vec3(arg->end.vertex - center));
+            if (glm::dot(infoTri->Normal.dir, rayDir.dir) > 0)
+            {
+                infoTri->Normal.dir = infoTri->Normal.dir * -1.f;
+            }
+            arg->t = t;
+            return true;
         }
-        arg->t = t;
-        return true;
     }
     
-    return false;
+    return false;*/
 }
 
 Sphere::~Sphere() {}
