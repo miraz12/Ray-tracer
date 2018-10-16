@@ -42,6 +42,9 @@ private:
     static const int  height = 800;
 
     Pixel screen[width][height];
+
+
+    int missedRays;
 };
 
 

@@ -10,7 +10,7 @@ Triangle::~Triangle() {}
 
 bool Triangle::RayInstersection(Ray* arg)
 {
-    const double EPSILON = 1e-27;
+    const double EPSILON = 1e-10;
     Vertex vertex0 = tri[0];
     Vertex vertex1 = tri[1];
     Vertex vertex2 = tri[2];
@@ -41,7 +41,7 @@ bool Triangle::RayInstersection(Ray* arg)
         return false;
 
     double t = f * glm::dot(edge2, q);
-    if (t > EPSILON) // ray intersection
+    if (t > 0.1) // ray intersection
     {
         glm::vec4 intersection = arg->start.vertex + glm::vec4(rayDir.dir * (float)t, 1.0f);
         arg->hitTri = this;

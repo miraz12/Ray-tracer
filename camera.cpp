@@ -24,11 +24,11 @@ void Camera::Render()
     float t = 100;
     Vertex eye = eye1;
     int inter = 0;
+    Ray* pixelRay = new Ray();
     for (int i = 0; i < width; ++i)
     {
         for (int j = 0; j < height; ++j)
         {
-            Ray* pixelRay = new Ray();
             screen[j][i].ray = pixelRay;
             pixelRay->start.vertex = eye.vertex;
             pixelRay->end.vertex = eye.vertex + t * (glm::vec4(0.0f, j * 0.0025f - 0.99875, i * 0.0025f - 0.99875, 0.0f) - eye.vertex);
@@ -36,7 +36,7 @@ void Camera::Render()
 
             ColorDbl color;
 
-            int raysPerPixel = 2;
+            int raysPerPixel = 5;
             for (int k = 0; k < raysPerPixel; ++k) // number of rays per pixels
             {
                 pixelRay->start.vertex = eye.vertex;
@@ -53,6 +53,9 @@ void Camera::Render()
 
         }
     }
+    printf("Missed rays %i\n", missedRays);
+    delete (pixelRay);
+
 }
 
 ColorDbl Camera::BounceRay(Ray* arg, int bounce)
@@ -61,6 +64,7 @@ ColorDbl Camera::BounceRay(Ray* arg, int bounce)
     ColorDbl color;
     if (arg->hitTri == nullptr)
     {
+        ++missedRays;
         color = ColorDbl(); //This should never happend??
         return color;
     }
@@ -87,6 +91,7 @@ ColorDbl Camera::BounceRay(Ray* arg, int bounce)
     {
         color.color += BounceRay(out, ++bounce).color * (float)arg->hitTri->material.reflectionCoefficient;
     }
+
     return color;
 }
 
