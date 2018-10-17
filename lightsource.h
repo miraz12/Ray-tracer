@@ -18,7 +18,7 @@ public:
     bool RayIntersection(Ray* arg);
     std::vector<Triangle> triangles;
     ColorDbl color;
-    float emission = 20.0f;
+    float emission = 400.0f;
 };
 
 

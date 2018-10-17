@@ -10,6 +10,7 @@ class Scene;
 enum ReflectionType
 {
     lambertian,
+    diffuse,
     specular,
     transparent,
     light
@@ -28,9 +29,10 @@ public:
     Ray* Reflect(Ray* arg, Scene* s);
 
     Ray* LambertianReflection(Ray* arg);
+    Ray* DiffuseReflection(Ray* arg);
 
     ColorDbl color;
-    double reflectionCoefficient = 0.6;
+    double reflectionCoefficient = 0.8;
     ReflectionType type;
     Random rand;
 };

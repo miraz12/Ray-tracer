@@ -5,6 +5,7 @@
 #include "sphere.h"
 #include "base.h"
 #include <algorithm>
+#include <glm/ext/scalar_constants.inl>
 
 Sphere::Sphere(const glm::vec4 center, float radius) : center(center), radius(radius) {}
 
@@ -96,13 +97,13 @@ bool Sphere::RayIntersection(Ray* arg)
     }
 
     t = t0;
-    if (t > 0.1) // ray intersection
+    if (t > EPSILON) // ray intersection
     {
         if (t < arg->t)
         {
             arg->end.vertex = arg->start.vertex + glm::vec4(rayDir.dir, 1.0f) * t;
             arg->hitTri = infoTri;
-            infoTri->Normal.dir = glm::normalize(glm::vec3(arg->end.vertex - center));
+            infoTri->Normal.dir = glm::normalize(glm::vec3(arg->end.vertex - center / radius));
             if (glm::dot(infoTri->Normal.dir, rayDir.dir) > 0)
             {
                 infoTri->Normal.dir = infoTri->Normal.dir * -1.f;
@@ -113,6 +114,17 @@ bool Sphere::RayIntersection(Ray* arg)
     }
     
     return false;*/
+}
+
+glm::vec3 Sphere::GetPointOnSphere()
+{
+    double theta = rand.GetRandomDouble(0.0, 1.0);
+    double phi = rand.GetRandomDouble(0.0, 1.0) * 2.0 * glm::pi<double>();
+
+    double dxr = radius * sin(theta) * cos(phi);
+    double dyr = radius * sin(theta) * sin(phi);
+    double dzr = radius * cos(theta);
+    return glm::vec3(center.x + dzr, center.y + dxr, center.z + dyr);
 }
 
 Sphere::~Sphere() {}

@@ -34,6 +34,12 @@ ColorDbl Material::Hit(Ray* arg, Scene* s)
         c.color = color.color * (float)reflectionCoefficient / glm::pi<float>();
         return c;
     }
+    if (type == diffuse)
+    {
+        ColorDbl c;
+        c.color = color.color * (float)reflectionCoefficient / glm::pi<float>();
+        return c;
+    }
     if (type == specular)
     {
         return color;
@@ -62,6 +68,10 @@ Ray* Material::Reflect(Ray* arg, Scene* s)
     {
         
         return LambertianReflection(arg);;
+    }
+    if (type == diffuse)
+    {
+        return DiffuseReflection(arg);
     }
     if (type == specular)
     {
@@ -119,5 +129,34 @@ Ray* Material::LambertianReflection(Ray* arg)
     r->dir.dir = glm::vec3(glm::normalize(r->end.vertex - r->start.vertex));
     r->t = 100.f;
 
+    return r;
+}
+
+Ray* Material::DiffuseReflection(Ray* arg)
+{
+    Ray* r = new Ray();
+    Direction dir;
+    float angle = 2 * M_PI * rand.GetRandomDouble(0.0, 0.1);
+    float dist_cen = sqrt(rand.GetRandomDouble(0.0, 1.0));
+    glm::vec3 u;
+
+    if (fabs(arg->hitTri->Normal.dir.x) > 0.1)
+    {
+        u = glm::vec3(0, 1, 0);
+    }
+    else
+    {
+        u = glm::vec3(1, 0, 0);
+    }
+    u = glm::normalize(glm::cross(u, arg->hitTri->Normal.dir));
+    glm::vec3 v = glm::cross(arg->hitTri->Normal.dir, u);
+    //reflection dir
+    glm::vec3 d = glm::normalize(u*cos(angle)*dist_cen + v * sin(angle) * dist_cen + arg->hitTri->Normal.dir * sqrt(1 - dist_cen * dist_cen));
+    if (glm::dot(d, arg->dir.dir) > 0)
+    {
+        d *= -1;
+    }
+    r->start.vertex = arg->end.vertex;
+    r->end.vertex = r->start.vertex + 100.0f * glm::vec4(d, 1.0f);
     return r;
 }

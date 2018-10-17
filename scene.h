@@ -9,6 +9,7 @@
 #include "tetrahedron.h"
 #include "sphere.h"
 #include "lightsource.h"
+#include "spherelightsource.h"
 
 class Scene {
 public:
@@ -16,6 +17,7 @@ public:
     ~Scene();
     void FindInstersections(Ray* arg);
     ColorDbl LaunchShadowRays(Ray* arg);
+    ColorDbl LaunchShadowRaysSphere(Ray* arg);
 
 private:
     Triangle scene[24];
@@ -23,6 +25,7 @@ private:
     std::vector<Tetrahedron> tetras;
     std::vector<Sphere> spheres;
     std::vector<LightSource> lights;
+    std::vector<SphereLightSource> lightsSphere;
 
 
     //Tetra test

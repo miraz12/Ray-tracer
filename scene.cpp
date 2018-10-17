@@ -4,6 +4,8 @@
 
 #include "scene.h"
 #include <glm/gtx/norm.inl>
+#include <glm/ext/scalar_constants.inl>
+#include <corecrt_math_defines.h>
 
 Scene::Scene()
 {
@@ -53,9 +55,9 @@ Scene::Scene()
     LightSource light;
     this->scene[6].SetTriangle(vertexlist[9], vertexlist[8], vertexlist[7], green);
     //Light--
-    light.SetLight(vertexlist[7], vertexlist[9], vertexlist[10], white);
-    lights.push_back(light);
-    //this->scene[7].SetTriangle(vertexlist[7], vertexlist[9], vertexlist[10], green); 
+    //light.SetLight(vertexlist[7], vertexlist[9], vertexlist[10], white);
+    //lights.push_back(light);
+    this->scene[7].SetTriangle(vertexlist[7], vertexlist[9], vertexlist[10], green); 
     //-------
     this->scene[8].SetTriangle(vertexlist[11], vertexlist[9], vertexlist[10], green);
     this->scene[9].SetTriangle(vertexlist[9], vertexlist[12], vertexlist[8], green);
@@ -117,6 +119,15 @@ Scene::Scene()
     Sphere s(glm::vec4(4.f, 2.f, 0.f, 1), 1, infoTri);
     spheres.push_back(s);
 
+    //Material matLight(ColorDbl(1., 1., 1.), 1.5, ReflectionType::light);
+    //Triangle* infoTriLight = new Triangle();
+    //infoTri->SetTriangle(tv, tv, tv, matLight);
+    //Sphere ls(glm::vec4(5, 0, 3, 1), 0.5, infoTriLight);
+
+    SphereLightSource ls(glm::vec4(0.f, -2.f, 0.f, 1), 0.01);
+    ls.color = white;
+    lightsSphere.push_back(ls);
+
 }
 
 Scene::~Scene() {}
@@ -135,6 +146,10 @@ void Scene::FindInstersections(Ray* arg)
     {
         tetras[i].RayIntersection(arg);
     }
+    for (int i = 0; i < lightsSphere.size(); ++i)
+    {
+        lightsSphere[i].RayIntersection(arg);
+    }
     for (int i = 0; i < spheres.size(); ++i)
     {
         spheres[i].RayIntersection(arg);
@@ -149,7 +164,7 @@ ColorDbl Scene::LaunchShadowRays(Ray* arg)
     Ray* shadowRay = new Ray();
     for (int i = 0; i < lights.size(); ++i)
     {
-       
+        //Lecture 3
             area += lights[i].triangles[0].Area();
             shadowRay->start.vertex = arg->end.vertex;
             shadowRay->dir.dir = glm::normalize(glm::vec4(lights[i].triangles[0].GetPointOnTri(), 1) - shadowRay->start.vertex);
@@ -160,22 +175,49 @@ ColorDbl Scene::LaunchShadowRays(Ray* arg)
             {
                 continue;
             }
-
             //Geometric term
             float alpha = glm::dot(arg->hitTri->GetNormal(), shadowRay->dir.dir);
             float b = glm::dot(lights[i].triangles[0].GetNormal(), -shadowRay->dir.dir);
             float beta = glm::clamp(b, 0.0f, 1.0f);
 
             float dist = glm::distance2(shadowRay->start.vertex, shadowRay->end.vertex);
-            float geometric = alpha * beta / pow(dist, 2.0);
+            float geometric = alpha * beta / dist;
 
             float wi = glm::dot(shadowRay->dir.dir, shadowRay->hitTri->Normal.dir);
 
-            lightContri.color += lights[i].color.color * lights[i].emission * geometric;
+            lightContri.color += lights[i].emission * geometric;
 
     }
 
     delete(shadowRay);
     lightContri.color *= area;
     return lightContri;
+}
+
+ColorDbl Scene::LaunchShadowRaysSphere(Ray* arg)
+{
+    ColorDbl color; 
+    for (int i = 0; i < lightsSphere.size(); ++i)
+    {
+        Ray* shadowRay = new Ray();
+        glm::vec3 lightPos = lightsSphere[i].sphere.GetPointOnSphere();
+        glm::vec3 lightDirection = glm::normalize(lightPos - glm::vec3(arg->end.vertex));
+        shadowRay->start.vertex = arg->end.vertex;
+        shadowRay->dir.dir = lightDirection;
+        shadowRay->end.vertex = shadowRay->start.vertex + 100.f * glm::vec4(lightDirection, 0);
+        FindInstersections(shadowRay);
+        if (shadowRay->hitTri->material.type == light)
+        {
+            double wi = glm::dot(lightDirection, arg->hitTri->Normal.dir);
+
+            if (wi > 0)
+            {
+                double srad = 1.5;
+                double cos_a_max = sqrt(1 - srad * srad / glm::dot((arg->end.vertex - glm::vec4(lightPos, 1)), arg->end.vertex - glm::vec4(lightPos, 1)));
+                double omega = 2 * M_PI * (1-cos_a_max);
+                color.color += lightsSphere[i].color.color * lightsSphere[i].emission * float(wi * omega * M_1_PI);
+            }
+        }
+    }
+    return color;
 }

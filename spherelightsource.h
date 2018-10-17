@@ -16,7 +16,7 @@ public:
     SphereLightSource(const glm::vec4 center, float radius);
     bool RayIntersection(Ray* arg);
     ColorDbl color;
-    float emission = 10.0f;
+    float emission = 600;
     Sphere sphere; 
 };
 

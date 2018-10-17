@@ -21,6 +21,7 @@ public:
     Sphere(const glm::vec4 center, float radius);
     Sphere(const glm::vec4 center, float radius, Triangle* infoTri);
     bool RayIntersection(Ray* arg);
+    glm::vec3 GetPointOnSphere();
     virtual ~Sphere();
 
 private:
@@ -28,6 +29,7 @@ private:
     glm::vec4 center;
     float radius;
     Triangle* infoTri;
+    Random rand;
 };
 
 
