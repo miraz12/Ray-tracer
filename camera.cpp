@@ -25,24 +25,30 @@ void Camera::Render()
     float t = 100;
     Vertex eye = eye1;
     Ray* pixelRay = new Ray();
+    float offsetx = 1.f / width;
+    float offsety = 1.f / height;
+    float pSizeX = 1.f - offsetx;
+    float pSizeY = 1.f - offsety;
+
     for (int i = 0; i < width; ++i)
     {
         for (int j = 0; j < height; ++j)
         {
             pixelRay->start.vertex = eye.vertex;
-            float yi = rand.GetRandomFloat(-0.00125f, 0.00125f);
-            float xj = rand.GetRandomFloat(-0.00125f, 0.00125f);
-            pixelRay->end.vertex = eye.vertex + t * (glm::vec4(0.0f, j * 0.0025f + xj - 0.99875, i * 0.0025f+yi - 0.99875, 0.0f) - eye.vertex);
+
+            float yi = rand.GetRandomFloat(-offsety, offsety);
+            float xj = rand.GetRandomFloat(-offsetx, offsetx);
+            pixelRay->end.vertex = eye.vertex + t * (glm::vec4(0.0f, j * offsety * 2 + xj - pSizeY, i * offsetx * 2 + yi - pSizeX, 0.0f) - eye.vertex);
             pixelRay->dir.dir = glm::normalize(glm::vec3(pixelRay->end.vertex - pixelRay->start.vertex));
 
             ColorDbl color;
-            int raysPerPixel = 50;
+            int raysPerPixel = 15;
             for (int k = 0; k < raysPerPixel; ++k) // number of rays per pixels
             {
                 pixelRay->start.vertex = eye.vertex;
-                float yi = rand.GetRandomFloat(-0.00125f, 0.00125f);
-                float xj = rand.GetRandomFloat(-0.00125f, 0.00125f);
-                pixelRay->end.vertex = eye.vertex + t * (glm::vec4(0.0f, j * 0.0025f + xj - 0.99875, i * 0.0025f + yi - 0.99875, 0.0f) - eye.vertex);
+                float yi = rand.GetRandomFloat(-offsety, offsety);
+                float xj = rand.GetRandomFloat(-offsetx, offsetx);
+                pixelRay->end.vertex = eye.vertex + t * (glm::vec4(0.0f, j * offsety * 2 + xj - pSizeY, i * offsetx * 2 + yi - pSizeX, 0.0f) - eye.vertex);
                 pixelRay->dir.dir = glm::normalize(glm::vec3(pixelRay->end.vertex - pixelRay->start.vertex));
                 pixelRay->t = t;
                 color.color += BounceRay(pixelRay, 0).color;
@@ -71,7 +77,7 @@ ColorDbl Camera::BounceRay(Ray* arg, int bounce)
     }
     if (arg->hitTri->material.type == light)
     {
-        color = ColorDbl(0, 0, 0);
+        color = ColorDbl(1, 1, 1);
         return color;
     }
 
@@ -88,7 +94,7 @@ ColorDbl Camera::BounceRay(Ray* arg, int bounce)
     float russianRoulett = rand.GetRandomDouble(0.0, 1.0);
     float clrMaxA = glm::max(emission.color.x, glm::max(emission.color.y, emission.color.z));
 
-    if ((russianRoulett < clrMaxA) && bounce < 3)
+    if (((russianRoulett > clrMaxA) || bounce < 10) && bounce < 4)
     {
         color.color += BounceRay(out, ++bounce).color;
     }

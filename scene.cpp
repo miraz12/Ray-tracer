@@ -124,7 +124,7 @@ Scene::Scene()
     //infoTri->SetTriangle(tv, tv, tv, matLight);
     //Sphere ls(glm::vec4(5, 0, 3, 1), 0.5, infoTriLight);
 
-    SphereLightSource ls(glm::vec4(0.f, -2.f, 0.f, 1), 0.01);
+    SphereLightSource ls(glm::vec4(1.f, -1.f, 0.f, 1), 0.01);
     ls.color = white;
     lightsSphere.push_back(ls);
 
