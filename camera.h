@@ -27,6 +27,11 @@ public:
 
 
 private:
+    inline double toInt(double x) {
+        return pow(x, 1 / 2.2f) * 255;
+    }
+
+
     Vertex eye0, eye1;
     int eyeChoice = 0;
     float clrMax = 0;

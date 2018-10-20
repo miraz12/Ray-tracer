@@ -65,7 +65,7 @@ void Triangle::SetTriangle(Vertex v1, Vertex v2, Vertex v3)
     tri[2] = v3;
     glm::vec3 e1 = glm::vec3(tri[1].vertex - tri[0].vertex);
     glm::vec3 e2 = glm::vec3(tri[2].vertex - tri[0].vertex);
-    material = Material(ColorDbl(0, 0, 0), 1.0f, lambertian);
+    material = Material(ColorDbl(0, 0, 0), 0.799, lambertian);
     Normal.dir = glm::normalize(glm::cross(e1, e2));
 }
 
@@ -74,7 +74,7 @@ void Triangle::SetTriangle(Vertex v1, Vertex v2, Vertex v3, ColorDbl c)
     tri[0] = v1;
     tri[1] = v2;
     tri[2] = v3;
-    material = Material(c, 1.0f, lambertian);
+    material = Material(c, 0.799, lambertian);
     glm::vec3 e1 = glm::vec3(tri[1].vertex - tri[0].vertex);
     glm::vec3 e2 = glm::vec3(tri[2].vertex - tri[0].vertex);
     Normal.dir = glm::normalize(glm::cross(e1, e2));

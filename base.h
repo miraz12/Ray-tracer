@@ -42,6 +42,17 @@ struct ColorDbl
         color.z = b;
     }
 
+    ColorDbl& clamp()
+    {
+        auto clampDouble = [](double x) {
+            if (x < 0) return 0.0;
+            if (x > 1) return 1.0;
+            return x;
+        };
+        this->color.x = clampDouble(this->color.x); this->color.y = clampDouble(this->color.y); this->color.z = clampDouble(this->color.z);
+        return *this;
+    }
+
 
 
     glm::vec3 color;

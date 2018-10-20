@@ -112,7 +112,7 @@ Scene::Scene()
     Tetrahedron t(tetralist[3], tetralist[2], tetralist[1], tetralist[0], pink);
     tetras.push_back(t);
 
-    Material matSphere(ColorDbl(0, 1., 1.), 1.5, lambertian);
+    Material matSphere(ColorDbl(0, 1., 1.), 0.799, lambertian);
     Triangle* infoTri = new Triangle();
     Vertex tv(0.0, 0.0, 0.0, 1);
     infoTri->SetTriangle(tv, tv, tv, matSphere);
@@ -127,6 +127,9 @@ Scene::Scene()
     SphereLightSource ls(glm::vec4(1.f, -1.f, 0.f, 1), 0.01);
     ls.color = white;
     lightsSphere.push_back(ls);
+    SphereLightSource ls2(glm::vec4(-1.f, 1.f, 1.f, 1), 0.01);
+    ls2.color = white;
+    lightsSphere.push_back(ls2);
 
 }
 

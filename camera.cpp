@@ -42,7 +42,7 @@ void Camera::Render()
             pixelRay->dir.dir = glm::normalize(glm::vec3(pixelRay->end.vertex - pixelRay->start.vertex));
 
             ColorDbl color;
-            int raysPerPixel = 15;
+            int raysPerPixel = 5;
             for (int k = 0; k < raysPerPixel; ++k) // number of rays per pixels
             {
                 pixelRay->start.vertex = eye.vertex;
@@ -58,7 +58,6 @@ void Camera::Render()
 
             clrMax = glm::max(color.color.x, glm::max(color.color.y, color.color.z));
             screen[j][i].colInt = color;
-
         }
     }
     printf("Missed rays %i\n", missedRays);
@@ -77,7 +76,7 @@ ColorDbl Camera::BounceRay(Ray* arg, int bounce)
     }
     if (arg->hitTri->material.type == light)
     {
-        color = ColorDbl(1, 1, 1);
+        color = ColorDbl(400, 400, 400);
         return color;
     }
 
@@ -88,15 +87,12 @@ ColorDbl Camera::BounceRay(Ray* arg, int bounce)
     emission.color = arg->hitTri->material.Hit(arg, scene).color * cosf(angle);
     lightContribution = scene->LaunchShadowRaysSphere(arg);
 
-    color.color += emission.color;
-    color.color *= lightContribution.color;
-
     float russianRoulett = rand.GetRandomDouble(0.0, 1.0);
     float clrMaxA = glm::max(emission.color.x, glm::max(emission.color.y, emission.color.z));
 
-    if (((russianRoulett > clrMaxA) || bounce < 10) && bounce < 4)
+    if (((russianRoulett > clrMaxA) || bounce < 20) && bounce < 4)
     {
-        color.color += BounceRay(out, ++bounce).color;
+        color.color = emission.color * lightContribution.color + emission.color * BounceRay(out, ++bounce).color;
     }
     delete(out);
     return color;

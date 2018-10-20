@@ -103,6 +103,7 @@ Ray* Material::Reflect(Ray* arg, Scene* s)
         return arg;
     }
 
+
 }
 
 Ray* Material::LambertianReflection(Ray* arg)

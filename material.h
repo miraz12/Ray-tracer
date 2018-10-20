@@ -32,7 +32,7 @@ public:
     Ray* DiffuseReflection(Ray* arg);
 
     ColorDbl color;
-    double reflectionCoefficient = 0.8;
+    double reflectionCoefficient = 0.799;
     ReflectionType type;
     Random rand;
 };
