@@ -112,7 +112,7 @@ Scene::Scene()
     Tetrahedron t(tetralist[3], tetralist[2], tetralist[1], tetralist[0], pink);
     //tetras.push_back(t);
 
-    Material matSphere1(ColorDbl(1, 1., 1.), 0.799, transparent);
+    Material matSphere1(ColorDbl(1, 1., 1.), 0.799, specular);
     Material matSphere2(ColorDbl(1, 1., 1.), 0.799, lambertian);
     //Material matSphere2(ColorDbl(1, 1., 1.), 0.799, specular);
     Triangle* infoTri1 = new Triangle();

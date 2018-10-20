@@ -34,14 +34,8 @@ void Camera::Render()
     {
         for (int j = 0; j < height; ++j)
         {
-            pixelRay->start.vertex = eye.vertex;
-            float yi = rand.GetRandomFloat(-offsety, offsety);
-            float xj = rand.GetRandomFloat(-offsetx, offsetx);
-            pixelRay->end.vertex = eye.vertex + t * (glm::vec4(0.0f, j * offsety * 2 + xj - pSizeY, i * offsetx * 2 + yi - pSizeX, 0.0f) - eye.vertex);
-            pixelRay->dir.dir = glm::normalize(glm::vec3(pixelRay->end.vertex - pixelRay->start.vertex));
-
             ColorDbl color;
-            int raysPerPixel = 25;
+            int raysPerPixel = 2;
             for (int k = 0; k < raysPerPixel; ++k) // number of rays per pixels
             {
                 pixelRay->start.vertex = eye.vertex;
@@ -55,7 +49,7 @@ void Camera::Render()
 
             color.color /= raysPerPixel;
 
-            clrMax = glm::max(color.color.x, glm::max(color.color.y, color.color.z));
+            clrMax = glm::max(color.color.x, glm::max(color.color.y, color.color.z)); //Safe maximum color value for later
             screen[j][i].colInt = color;
         }
     }
