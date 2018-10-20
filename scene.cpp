@@ -9,6 +9,10 @@
 
 Scene::Scene()
 {
+    /*
+     *Order of vertices in triangles in meshes dont matter 
+     *for normals as we do checks for that when needed
+    */
     vertexlist[0] = Vertex(0.0f, 6.0f, -5.0f);
     vertexlist[1] = Vertex(-3.0f, 0.0f, -5.0f);
     vertexlist[2] = Vertex(5.0f, 0.0f, -5.0f);
@@ -55,7 +59,7 @@ Scene::Scene()
     LightSource light;
     this->scene[6].SetTriangle(vertexlist[9], vertexlist[8], vertexlist[7], green);
     //Light--
-    //light.SetLight(vertexlist[7], vertexlist[9], vertexlist[10], white);
+    //light.SetLight(vertexlist[7], vertexlist[9], vertexlist[10], white); //Area light
     //lights.push_back(light);
     this->scene[7].SetTriangle(vertexlist[7], vertexlist[9], vertexlist[10], green); 
     //-------
@@ -131,7 +135,6 @@ Scene::Scene()
     //Sphere ls(glm::vec4(5, 0, 3, 1), 0.5, infoTriLight);
 
     SphereLightSource ls(glm::vec4(1, 0, 1, 1), 0.2);
-    ls.color = white;
     lightsSphere.push_back(ls);
     //SphereLightSource ls2(glm::vec4(-1.f, 1.f, 1.f, 1), 0.51);
     //ls2.color = white;
@@ -180,13 +183,13 @@ ColorDbl Scene::LaunchShadowRays(Ray* arg)
             shadowRay->end.vertex = shadowRay->start.vertex + 100.f * glm::vec4(shadowRay->dir.dir, 0);
 
             FindInstersections(shadowRay);
-            if (shadowRay->hitTri->material.type != light) //Check if point is blocked by any objects
+            if (shadowRay->hitTri->material.GetType() != light) //Check if point is blocked by any objects
             {
                 continue;
             }
             //Geometric term
-            float alpha = glm::dot(arg->hitTri->GetNormal(), shadowRay->dir.dir);
-            float b = glm::dot(lights[i].triangles[0].GetNormal(), -shadowRay->dir.dir);
+            float alpha = glm::dot(arg->hitTri->Normal.dir, shadowRay->dir.dir);
+            float b = glm::dot(lights[i].triangles[0].Normal.dir, -shadowRay->dir.dir);
             float beta = glm::clamp(b, 0.0f, 1.0f);
 
             float dist = glm::distance2(shadowRay->start.vertex, shadowRay->end.vertex);
@@ -194,7 +197,7 @@ ColorDbl Scene::LaunchShadowRays(Ray* arg)
 
             float wi = glm::dot(shadowRay->dir.dir, shadowRay->hitTri->Normal.dir);
 
-            lightContri.color += lights[i].emission * geometric;
+            lightContri.color += lights[i].GetEmission() * geometric;
 
     }
 
@@ -209,13 +212,13 @@ ColorDbl Scene::LaunchShadowRaysSphere(Ray* arg)
     for (int i = 0; i < lightsSphere.size(); ++i)
     {
         Ray* shadowRay = new Ray();
-        glm::vec3 lightPos = lightsSphere[i].sphere.GetPointOnSphere();
+        glm::vec3 lightPos = lightsSphere[i].GetPointOnSphere();
         glm::vec3 lightDirection = glm::normalize(lightPos - glm::vec3(arg->end.vertex));
         shadowRay->start.vertex = arg->end.vertex;
         shadowRay->dir.dir = lightDirection;
         shadowRay->end.vertex = shadowRay->start.vertex + 100.f * glm::vec4(lightDirection, 0);
         FindInstersections(shadowRay);
-        if (shadowRay->hitTri->material.type == light)
+        if (shadowRay->hitTri->material.GetType() == light)
         {
             double wi = glm::dot(lightDirection, arg->hitTri->Normal.dir);
 
@@ -224,7 +227,7 @@ ColorDbl Scene::LaunchShadowRaysSphere(Ray* arg)
                 double srad = 1.5;
                 double cos_a_max = sqrt(1 - srad * srad / glm::dot((arg->end.vertex - glm::vec4(lightPos, 1)), arg->end.vertex - glm::vec4(lightPos, 1)));
                 double omega = 2 * M_PI * (1-cos_a_max);
-                color.color += lightsSphere[i].color.color * lightsSphere[i].emission * float(wi * omega * M_1_PI);
+                color.color += lightsSphere[i].GetColor() * lightsSphere[i].GetEmission() * float(wi * omega * M_1_PI);
             }
         }
     }

@@ -20,12 +20,16 @@ public:
     Sphere() = default;
     Sphere(const glm::vec4 center, float radius);
     Sphere(const glm::vec4 center, float radius, Triangle* infoTri);
-    bool RayIntersection(Ray* arg);
-    glm::vec3 GetPointOnSphere();
     virtual ~Sphere();
 
-private:
+    ///Find out if ray intersects with sphere
+    bool RayIntersection(Ray* arg);
+    ///Generate a random point on the sphere
+    glm::vec3 GetPointOnSphere();
+    glm::vec3 GetColor();
+    float GetEmission() ;
 
+private:
     glm::vec4 center;
     float radius;
     Triangle* infoTri;

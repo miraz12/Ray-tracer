@@ -15,6 +15,7 @@ public:
     Tetrahedron();
     Tetrahedron(Vertex v1, Vertex v2, Vertex v3, Vertex v4, ColorDbl c);
 
+    //Find out if ray intersects with tetra
     bool RayIntersection(Ray* arg);
     Triangle mesh[4];
 };

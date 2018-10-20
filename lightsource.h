@@ -15,8 +15,12 @@ public:
     LightSource();
     void SetLight(Vertex v1, Vertex v2, Vertex v3);
     void SetLight(Vertex v1, Vertex v2, Vertex v3, ColorDbl c);
+    ///Intersection check for lightsource
     bool RayIntersection(Ray* arg);
     std::vector<Triangle> triangles;
+    float GetEmission() const { return emission; }
+
+private:
     ColorDbl color;
     float emission = 400.0f;
 };

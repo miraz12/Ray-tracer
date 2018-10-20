@@ -49,7 +49,7 @@ void Camera::Render()
 
             color.color /= raysPerPixel;
 
-            clrMax = glm::max(color.color.x, glm::max(color.color.y, color.color.z)); //Safe maximum color value for later
+            clrMax = glm::max(color.color.x, glm::max(color.color.y, color.color.z)); //Save maximum color value for later
             screen[j][i].colInt = color;
         }
     }
@@ -67,7 +67,7 @@ ColorDbl Camera::BounceRay(Ray* arg, int bounce)
         color = ColorDbl(); //This should never happend??
         return color;
     }
-    if (arg->hitTri->material.type == light)
+    if (arg->hitTri->material.GetType() == light)
     {
         color = arg->hitTri->material.Hit(arg, scene);
         return color;
@@ -75,12 +75,12 @@ ColorDbl Camera::BounceRay(Ray* arg, int bounce)
 
     Ray* out = arg->hitTri->material.Reflect(arg, scene);
     ColorDbl emission, lightContribution;
-    emission.color = arg->hitTri->material.Hit(arg, scene).color;
-    lightContribution = scene->LaunchShadowRaysSphere(arg);
+    emission.color = arg->hitTri->material.Hit(arg, scene).color; //Get amount of color emitted from pixel 
+    lightContribution = scene->LaunchShadowRaysSphere(arg); //Get light contribution (radiance)
 
     float russianRoulett = rand.GetRandomDouble(0.0, 1.0);
     float clrMaxA = glm::max(emission.color.x, glm::max(emission.color.y, emission.color.z));
-
+    //Exit conditions
     if (((russianRoulett > clrMaxA) || bounce < 20) && bounce < 4)
     {
         color.color = emission.color * lightContribution.color + emission.color * BounceRay(out, ++bounce).color;

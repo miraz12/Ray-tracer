@@ -43,7 +43,7 @@ bool Sphere::RayIntersection(Ray* arg)
             infoTri->Normal.dir = glm::normalize(glm::vec3(arg->end.vertex - center));
             if (glm::dot(infoTri->Normal.dir, dir) > 0)
             {
-                infoTri->Normal.dir = infoTri->Normal.dir * -1.f;
+                infoTri->Normal.dir *= -1.f;
             }
             arg->t = t;
             return true;
@@ -61,7 +61,7 @@ bool Sphere::RayIntersection(Ray* arg)
             infoTri->Normal.dir = glm::normalize(glm::vec3(arg->end.vertex - center));
             if (glm::dot(infoTri->Normal.dir, dir) > 0)
             {
-                infoTri->Normal.dir = infoTri->Normal.dir * -1.f;
+                infoTri->Normal.dir *=  -1.f;
             }
             arg->t = t;
             return true;
@@ -70,50 +70,6 @@ bool Sphere::RayIntersection(Ray* arg)
 
     return false;
 
-
-
-    /*
-    float t; 
-    float radius2 = radius * radius;
-    Direction rayDir;
-    rayDir.dir = glm::normalize(glm::vec3(arg->end.vertex - arg->start.vertex));
-
-    glm::vec3 L = center - arg->start.vertex;
-    float tca = glm::dot(L, rayDir.dir);
-    float d2 = glm::dot(L, L) - tca * tca;
-    if (d2 > radius2) 
-        return false;
-    float thc = sqrt(radius2 - d2);
-    float t0 = tca - thc;
-    float t1 = tca + thc;
-
-    if (t0 > t1) std::swap(t0, t1);
-
-    if (t0 < 0)
-    {
-        t0 = t1;
-        if (t0 < 0) 
-            return false;
-    }
-
-    t = t0;
-    if (t > EPSILON) // ray intersection
-    {
-        if (t < arg->t)
-        {
-            arg->end.vertex = arg->start.vertex + glm::vec4(rayDir.dir, 1.0f) * t;
-            arg->hitTri = infoTri;
-            infoTri->Normal.dir = glm::normalize(glm::vec3(arg->end.vertex - center / radius));
-            if (glm::dot(infoTri->Normal.dir, rayDir.dir) > 0)
-            {
-                infoTri->Normal.dir = infoTri->Normal.dir * -1.f;
-            }
-            arg->t = t;
-            return true;
-        }
-    }
-    
-    return false;*/
 }
 
 glm::vec3 Sphere::GetPointOnSphere()
@@ -125,6 +81,16 @@ glm::vec3 Sphere::GetPointOnSphere()
     double dyr = radius * sin(theta) * sin(phi);
     double dzr = radius * cos(theta);
     return glm::vec3(center.x + dzr, center.y + dxr, center.z + dyr);
+}
+
+glm::vec3 Sphere::GetColor()
+{
+    return infoTri->material.GetColor().color;
+}
+
+float Sphere::GetEmission() 
+{
+    return infoTri->material.GetEmission();
 }
 
 Sphere::~Sphere() {}

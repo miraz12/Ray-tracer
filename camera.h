@@ -23,9 +23,8 @@ public:
     void Render();
     void CreateImage();
 
-
-
 private:
+    ///Bounces  ray trough scene
     ColorDbl BounceRay(Ray* arg, int bounce);
 
     Vertex eye0, eye1;
@@ -34,14 +33,11 @@ private:
     Scene* scene;
     Random rand;
 
-
     //800 × 800
     static const int width = 800;
     static const int  height = 800;
 
     Pixel screen[width][height];
-
-
     int missedRays;
 };
 

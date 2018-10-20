@@ -14,3 +14,18 @@ bool SphereLightSource::RayIntersection(Ray* arg)
 {
     return sphere.RayIntersection(arg);
 }
+
+glm::vec3 SphereLightSource::GetPointOnSphere()
+{
+    return sphere.GetPointOnSphere();
+}
+
+glm::vec3 SphereLightSource::GetColor()
+{
+    return sphere.GetColor();
+}
+
+float SphereLightSource::GetEmission() 
+{
+    return sphere.GetEmission();
+}

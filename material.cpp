@@ -104,15 +104,15 @@ Ray* Material::LambertianReflection(Ray* arg)
     float xi = rand.GetRandomFloat(0.0, 1.0);
     float yj = rand.GetRandomFloat(0.0, 1.0);
 
-    glm::vec3 v1 = glm::normalize(-arg->dir.dir - glm::dot(-arg->dir.dir, arg->hitTri->GetNormal()*arg->hitTri->GetNormal()));
-    glm::vec3 v2 = -glm::cross(v1, arg->hitTri->GetNormal());
-    glm::vec3 v3 = arg->hitTri->GetNormal();
+    glm::vec3 v1 = glm::normalize(-arg->dir.dir - glm::dot(-arg->dir.dir, arg->hitTri->Normal.dir*arg->hitTri->Normal.dir));
+    glm::vec3 v2 = -glm::cross(v1, arg->hitTri->Normal.dir);
+    glm::vec3 v3 = arg->hitTri->Normal.dir;
 
     float altitude = 2.f * glm::pi<float>() * xi;
     float azimuth = asin(sqrtf(yj));
 
     //Create new random ray direction
-    glm::vec3 newraydir = glm::normalize(glm::rotate(arg->hitTri->GetNormal(), azimuth, v2));
+    glm::vec3 newraydir = glm::normalize(glm::rotate(arg->hitTri->Normal.dir, azimuth, v2));
     newraydir = glm::normalize(glm::rotate(newraydir, altitude, v3));
 
 

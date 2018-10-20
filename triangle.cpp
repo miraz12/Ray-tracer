@@ -92,11 +92,6 @@ void Triangle::SetTriangle(Vertex v1, Vertex v2, Vertex v3, Material m)
     Normal.dir = glm::normalize(glm::cross(e1, e2));
 }
 
-glm::vec3 Triangle::GetNormal()
-{
-    return Normal.dir;
-}
-
 double Triangle::Area()
 {
     glm::vec3 e1 = glm::vec3(tri[1].vertex - tri[0].vertex);
@@ -106,7 +101,7 @@ double Triangle::Area()
 
 glm::vec3 Triangle::GetPointOnTri()
 {
-Random rand;
+    Random rand;
     float a = rand.GetRandomFloat(0.0, 1.0f);
     float b = rand.GetRandomFloat(0.0, 1.0f);
     if (a + b > 1.0)

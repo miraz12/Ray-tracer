@@ -14,9 +14,14 @@ class SphereLightSource {
 public:
     SphereLightSource() = default;
     SphereLightSource(const glm::vec4 center, float radius);
+    ///Intersection check for lightsource
     bool RayIntersection(Ray* arg);
-    ColorDbl color;
-    float emission = 600;
+    ///Generate a random point on the sphere
+    glm::vec3 GetPointOnSphere();
+    glm::vec3 GetColor();
+    float GetEmission();
+
+private:
     Sphere sphere; 
 };
 

@@ -41,20 +41,6 @@ struct ColorDbl
         color.y = g;
         color.z = b;
     }
-
-    ColorDbl& clamp()
-    {
-        auto clampDouble = [](double x) {
-            if (x < 0) return 0.0;
-            if (x > 1) return 1.0;
-            return x;
-        };
-        this->color.x = clampDouble(this->color.x); this->color.y = clampDouble(this->color.y); this->color.z = clampDouble(this->color.z);
-        return *this;
-    }
-
-
-
     glm::vec3 color;
 };
 
@@ -65,7 +51,7 @@ struct Ray
     Vertex end;
     Triangle* hitTri = nullptr;
     Direction dir;
-    float t = INT32_MAX;
+    float t = INT32_MAX; //Used to check if new intersections are closer or not so need to be big.
 };
 
 #endif //RAY_TRACER_BASE_H
