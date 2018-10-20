@@ -21,16 +21,12 @@ public:
     Camera();
     virtual ~Camera();
     void Render();
-    ColorDbl BounceRay(Ray* arg, int bounce);
     void CreateImage();
-    void CreateRays();
+
 
 
 private:
-    inline double toInt(double x) {
-        return pow(x, 1 / 2.2f) * 255;
-    }
-
+    ColorDbl BounceRay(Ray* arg, int bounce);
 
     Vertex eye0, eye1;
     int eyeChoice = 0;

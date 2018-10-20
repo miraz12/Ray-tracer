@@ -35,6 +35,7 @@ public:
     double reflectionCoefficient = 0.799;
     ReflectionType type;
     Random rand;
+    float emission = 100;
 };
 
 

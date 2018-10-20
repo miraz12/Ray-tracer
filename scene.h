@@ -27,8 +27,7 @@ private:
     std::vector<LightSource> lights;
     std::vector<SphereLightSource> lightsSphere;
 
-
-    //Tetra test
+    //Tetra
     Vertex tetralist[4];
 
 };

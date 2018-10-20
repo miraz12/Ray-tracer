@@ -110,26 +110,32 @@ Scene::Scene()
 
     ColorDbl pink(1, 0, 1);
     Tetrahedron t(tetralist[3], tetralist[2], tetralist[1], tetralist[0], pink);
-    tetras.push_back(t);
+    //tetras.push_back(t);
 
-    Material matSphere(ColorDbl(0, 1., 1.), 0.799, lambertian);
-    Triangle* infoTri = new Triangle();
+    Material matSphere1(ColorDbl(1, 1., 1.), 0.799, transparent);
+    Material matSphere2(ColorDbl(1, 1., 1.), 0.799, lambertian);
+    //Material matSphere2(ColorDbl(1, 1., 1.), 0.799, specular);
+    Triangle* infoTri1 = new Triangle();
+    Triangle* infoTri2 = new Triangle();
     Vertex tv(0.0, 0.0, 0.0, 1);
-    infoTri->SetTriangle(tv, tv, tv, matSphere);
-    Sphere s(glm::vec4(4.f, 2.f, 0.f, 1), 1, infoTri);
+    infoTri1->SetTriangle(tv, tv, tv, matSphere1);
+    infoTri2->SetTriangle(tv, tv, tv, matSphere2);
+    Sphere s(glm::vec4(6.f, 2.f, -2.5f, 1), 1, infoTri1);
+    Sphere s2(glm::vec4(6.f, -2.f, -2.5f, 1), 1, infoTri2);
     spheres.push_back(s);
+    spheres.push_back(s2);
 
     //Material matLight(ColorDbl(1., 1., 1.), 1.5, ReflectionType::light);
     //Triangle* infoTriLight = new Triangle();
     //infoTri->SetTriangle(tv, tv, tv, matLight);
     //Sphere ls(glm::vec4(5, 0, 3, 1), 0.5, infoTriLight);
 
-    SphereLightSource ls(glm::vec4(1.f, -1.f, 0.f, 1), 0.01);
+    SphereLightSource ls(glm::vec4(1, 0, 1, 1), 0.2);
     ls.color = white;
     lightsSphere.push_back(ls);
-    SphereLightSource ls2(glm::vec4(-1.f, 1.f, 1.f, 1), 0.01);
-    ls2.color = white;
-    lightsSphere.push_back(ls2);
+    //SphereLightSource ls2(glm::vec4(-1.f, 1.f, 1.f, 1), 0.51);
+    //ls2.color = white;
+    //lightsSphere.push_back(ls2);
 
 }
 

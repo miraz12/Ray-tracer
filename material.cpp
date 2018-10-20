@@ -36,28 +36,39 @@ ColorDbl Material::Hit(Ray* arg, Scene* s)
     }
     if (type == diffuse)
     {
-        ColorDbl c;
-        c.color = color.color * (float)reflectionCoefficient / glm::pi<float>();
-        return c;
-    }
-    if (type == specular)
-    {
-        return color;
-    }
-    if(transparent)//Transparent, Snell's law
-    {
-        /*
-        Direction dir;
+        /*Direction dir;
         dir.dir = arg->end.vertex - arg->start.vertex;
-        glm::vec3 newDir = glm::refract(dir.dir, arg->normal, float(1.f/ reflectionCoefficient));
+        glm::vec3 newDir = glm::reflect(dir.dir, arg->hitTri->Normal.dir);
         arg->start.vertex = arg->end.vertex;
         arg->end.vertex = arg->start.vertex + 2.0f * glm::vec4(newDir, 1.0f) - arg->start.vertex;
         s->FindInstersections(arg);
-        return arg->hitTri->material.Hit(arg, s, ++iter);*/
+        return arg->hitTri->material.Hit(arg, s);*/
     }
-    if(light)
+    if (type == specular)
     {
-        return color;
+        Direction dir;
+        dir.dir = arg->end.vertex - arg->start.vertex;
+        glm::vec3 newDir = glm::reflect(dir.dir, arg->hitTri->Normal.dir);
+        arg->start.vertex = arg->end.vertex;
+        arg->end.vertex = arg->start.vertex + 2.0f * glm::vec4(newDir, 1.0f) - arg->start.vertex;
+        s->FindInstersections(arg);
+        return arg->hitTri->material.Hit(arg, s);
+    }
+    if(type == transparent)//Transparent, Snell's law
+    {
+        Direction dir;
+        dir.dir = arg->end.vertex - arg->start.vertex;
+        glm::vec3 newDir = glm::refract(dir.dir, arg->hitTri->Normal.dir, float(1.f/ 1.52f));
+        arg->start.vertex = arg->end.vertex;
+        arg->end.vertex = arg->start.vertex + 2.0f * glm::vec4(newDir, 1.0f) - arg->start.vertex;
+        s->FindInstersections(arg);
+        return arg->hitTri->material.Hit(arg, s);
+    }
+    if(type == light)
+    {
+        ColorDbl c;
+        c.color = color.color * emission;
+        return c;
     }
 }
 
@@ -66,7 +77,6 @@ Ray* Material::Reflect(Ray* arg, Scene* s)
 
     if (type == lambertian)
     {
-        
         return LambertianReflection(arg);;
     }
     if (type == diffuse)
@@ -75,32 +85,15 @@ Ray* Material::Reflect(Ray* arg, Scene* s)
     }
     if (type == specular)
     {
-        Ray* r = new Ray();
-        Direction dir;
-        dir.dir = glm::normalize(arg->end.vertex - arg->start.vertex);
-        glm::vec3 newDir = glm::reflect(dir.dir, arg->hitTri->Normal.dir);
-        if (glm::dot(newDir, arg->dir.dir) > 0)
-        {
-            newDir *= -1;
-        }
-        r->start.vertex = arg->end.vertex;
-        r->end.vertex = r->start.vertex + 100.0f * glm::vec4(newDir, 1.0f);
-        return r;
+        return LambertianReflection(arg);
     }
-    if (transparent)//Transparent, Snell's law
+    if (type == transparent)//Transparent, Snell's law
     {
-        /*
-        Direction dir;
-        dir.dir = arg->end.vertex - arg->start.vertex;
-        glm::vec3 newDir = glm::refract(dir.dir, arg->normal, float(1.f/ reflectionCoefficient));
-        arg->start.vertex = arg->end.vertex;
-        arg->end.vertex = arg->start.vertex + 2.0f * glm::vec4(newDir, 1.0f) - arg->start.vertex;
-        s->FindInstersections(arg);
-        return arg->hitTri->material.Hit(arg, s, ++iter);*/
+        return LambertianReflection(arg);
     }
-    else 
+    if (type == light)
     {
-        return arg;
+        assert("Trying to reflect at lightsource");
     }
 
 

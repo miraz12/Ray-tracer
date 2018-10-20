@@ -10,6 +10,7 @@ Triangle::~Triangle() {}
 
 bool Triangle::RayInstersection(Ray* arg)
 {
+    //Möller-Trumbore
     const float EPSILON = 0.001f;
     Vertex vertex0 = tri[0];
     Vertex vertex1 = tri[1];

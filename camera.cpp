@@ -35,14 +35,13 @@ void Camera::Render()
         for (int j = 0; j < height; ++j)
         {
             pixelRay->start.vertex = eye.vertex;
-
             float yi = rand.GetRandomFloat(-offsety, offsety);
             float xj = rand.GetRandomFloat(-offsetx, offsetx);
             pixelRay->end.vertex = eye.vertex + t * (glm::vec4(0.0f, j * offsety * 2 + xj - pSizeY, i * offsetx * 2 + yi - pSizeX, 0.0f) - eye.vertex);
             pixelRay->dir.dir = glm::normalize(glm::vec3(pixelRay->end.vertex - pixelRay->start.vertex));
 
             ColorDbl color;
-            int raysPerPixel = 5;
+            int raysPerPixel = 25;
             for (int k = 0; k < raysPerPixel; ++k) // number of rays per pixels
             {
                 pixelRay->start.vertex = eye.vertex;
@@ -76,15 +75,13 @@ ColorDbl Camera::BounceRay(Ray* arg, int bounce)
     }
     if (arg->hitTri->material.type == light)
     {
-        color = ColorDbl(400, 400, 400);
+        color = arg->hitTri->material.Hit(arg, scene);
         return color;
     }
 
     Ray* out = arg->hitTri->material.Reflect(arg, scene);
-    double angle = glm::angle(out->dir.dir, arg->hitTri->GetNormal());
-
     ColorDbl emission, lightContribution;
-    emission.color = arg->hitTri->material.Hit(arg, scene).color * cosf(angle);
+    emission.color = arg->hitTri->material.Hit(arg, scene).color;
     lightContribution = scene->LaunchShadowRaysSphere(arg);
 
     float russianRoulett = rand.GetRandomDouble(0.0, 1.0);
