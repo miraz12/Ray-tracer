@@ -34,15 +34,25 @@ ColorDbl Material::Hit(Ray* arg, Scene* s)
         c.color = color.color * (float)reflectionCoefficient / glm::pi<float>();
         return c;
     }
-    if (type == diffuse)
+    if (type == diffuse) //Oren-Nayar
     {
-        /*Direction dir;
-        dir.dir = arg->end.vertex - arg->start.vertex;
-        glm::vec3 newDir = glm::reflect(dir.dir, arg->hitTri->Normal.dir);
-        arg->start.vertex = arg->end.vertex;
-        arg->end.vertex = arg->start.vertex + 2.0f * glm::vec4(newDir, 1.0f) - arg->start.vertex;
-        s->FindInstersections(arg);
-        return arg->hitTri->material.Hit(arg, s);*/
+        glm::vec3 normal = arg->hitTri->Normal.dir;
+        glm::vec3 dir = glm::normalize(arg->end.vertex - arg->start.vertex);
+        glm::vec3 shadowRayDir = arg->shadowRay.dir;
+        float sigma2 = powf(roughness, 2);
+        float A = 1.f - 0.5f * (sigma2 / (sigma2 + 0.33f));
+        float B = 0.45f * (sigma2 / (sigma2 + 0.09f));
+        float cos_theta_d1 = glm::dot(dir, normal);
+        float cos_theta_d2 = glm::dot(shadowRayDir, normal);
+        float theta_d1 = glm::acos(cos_theta_d1);
+        float theta_d2 = glm::acos(cos_theta_d2);
+        float alpha = glm::max(theta_d1, theta_d2);
+        float beta = glm::min(theta_d1, theta_d2);
+        float cos_d1_d2 = glm::dot(dir, shadowRayDir);
+
+        ColorDbl c;
+        c.color = color.color / glm::pi<float>() * (A + (B * glm::max(0.f, cos_d1_d2)) * glm::sin(alpha) * glm::tan(beta));
+        return c;
     }
     if (type == specular)
     {
@@ -58,7 +68,7 @@ ColorDbl Material::Hit(Ray* arg, Scene* s)
     {
         Direction dir;
         dir.dir = arg->end.vertex - arg->start.vertex;
-        glm::vec3 newDir = glm::refract(dir.dir, arg->hitTri->Normal.dir, float(1.f/ 1.52f));
+        glm::vec3 newDir = glm::refract(dir.dir, arg->hitTri->Normal.dir, float(1.f/ refractionIndex)); //From air(1.f) to glass (1.51f)
         arg->start.vertex = arg->end.vertex;
         arg->end.vertex = arg->start.vertex + 2.0f * glm::vec4(newDir, 1.0f) - arg->start.vertex;
         s->FindInstersections(arg);
@@ -81,7 +91,7 @@ Ray* Material::Reflect(Ray* arg, Scene* s)
     }
     if (type == diffuse)
     {
-        return DiffuseReflection(arg);
+        return LambertianReflection(arg);
     }
     if (type == specular)
     {

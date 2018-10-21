@@ -75,8 +75,9 @@ ColorDbl Camera::BounceRay(Ray* arg, int bounce)
 
     Ray* out = arg->hitTri->material.Reflect(arg, scene);
     ColorDbl emission, lightContribution;
-    emission.color = arg->hitTri->material.Hit(arg, scene).color; //Get amount of color emitted from pixel 
     lightContribution = scene->LaunchShadowRaysSphere(arg); //Get light contribution (radiance)
+    emission.color = arg->hitTri->material.Hit(arg, scene).color; //Get amount of color emitted from pixel 
+
 
     float russianRoulett = rand.GetRandomDouble(0.0, 1.0);
     float clrMaxA = glm::max(emission.color.x, glm::max(emission.color.y, emission.color.z));

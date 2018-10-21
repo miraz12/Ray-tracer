@@ -51,6 +51,7 @@ struct Ray
     Vertex end;
     Triangle* hitTri = nullptr;
     Direction dir;
+    Direction shadowRay; //Used in OrenNayar brdf
     float t = INT32_MAX; //Used to check if new intersections are closer or not so need to be big.
 };
 

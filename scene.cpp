@@ -214,6 +214,7 @@ ColorDbl Scene::LaunchShadowRaysSphere(Ray* arg)
         Ray* shadowRay = new Ray();
         glm::vec3 lightPos = lightsSphere[i].GetPointOnSphere();
         glm::vec3 lightDirection = glm::normalize(lightPos - glm::vec3(arg->end.vertex));
+        arg->shadowRay.dir = lightDirection;
         shadowRay->start.vertex = arg->end.vertex;
         shadowRay->dir.dir = lightDirection;
         shadowRay->end.vertex = shadowRay->start.vertex + 100.f * glm::vec4(lightDirection, 0);
