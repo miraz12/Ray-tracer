@@ -77,7 +77,7 @@ ColorDbl Material::Hit(Ray* arg, Scene* s)
     if(type == light)
     {
         ColorDbl c;
-        c.color = color.color;
+        c.color = color.color / glm::pi<float>();
         return c;
     }
 }

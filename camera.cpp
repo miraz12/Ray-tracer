@@ -35,7 +35,7 @@ void Camera::Render()
         for (int j = 0; j < height; ++j)
         {
             ColorDbl color;
-            int raysPerPixel = 25;
+            int raysPerPixel = 15;
             for (int k = 0; k < raysPerPixel; ++k) // number of rays per pixels
             {
                 pixelRay->start.vertex = eye.vertex;
