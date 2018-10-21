@@ -77,7 +77,7 @@ ColorDbl Material::Hit(Ray* arg, Scene* s)
     if(type == light)
     {
         ColorDbl c;
-        c.color = color.color * emission;
+        c.color = color.color;
         return c;
     }
 }

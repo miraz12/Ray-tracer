@@ -2,7 +2,7 @@
 
 SphereLightSource::SphereLightSource(const glm::vec4 center, float radius)
 {
-    Material matLight(ColorDbl(1., 1., 1.), 1, ReflectionType::light);
+    Material matLight(ColorDbl(4., 4., 4.), 1, light);
     Triangle* infoTri = new Triangle();
     Vertex tv(0.0, 0.0, 0.0, 1);
     infoTri->SetTriangle(tv, tv, tv, matLight);
@@ -20,7 +20,7 @@ glm::vec3 SphereLightSource::GetPointOnSphere()
     return sphere.GetPointOnSphere();
 }
 
-glm::vec3 SphereLightSource::GetColor()
+ColorDbl SphereLightSource::GetColor()
 {
     return sphere.GetColor();
 }

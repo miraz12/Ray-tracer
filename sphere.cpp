@@ -83,9 +83,9 @@ glm::vec3 Sphere::GetPointOnSphere()
     return glm::vec3(center.x + dzr, center.y + dxr, center.z + dyr);
 }
 
-glm::vec3 Sphere::GetColor()
+ColorDbl Sphere::GetColor()
 {
-    return infoTri->material.GetColor().color;
+    return infoTri->material.GetColor();
 }
 
 float Sphere::GetEmission() 

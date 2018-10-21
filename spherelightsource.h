@@ -18,7 +18,7 @@ public:
     bool RayIntersection(Ray* arg);
     ///Generate a random point on the sphere
     glm::vec3 GetPointOnSphere();
-    glm::vec3 GetColor();
+    ColorDbl GetColor();
     float GetEmission();
 
 private:

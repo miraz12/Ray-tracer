@@ -116,7 +116,7 @@ Scene::Scene()
     Tetrahedron t(tetralist[3], tetralist[2], tetralist[1], tetralist[0], pink);
     //tetras.push_back(t);
 
-    Material matSphere1(ColorDbl(1, 1., 1.), 0.799, specular);
+    Material matSphere1(ColorDbl(1, 1., 1.), 0.799, diffuse);
     Material matSphere2(ColorDbl(1, 1., 1.), 0.799, lambertian);
     //Material matSphere2(ColorDbl(1, 1., 1.), 0.799, specular);
     Triangle* infoTri1 = new Triangle();
@@ -228,7 +228,7 @@ ColorDbl Scene::LaunchShadowRaysSphere(Ray* arg)
                 double srad = 1.5;
                 double cos_a_max = sqrt(1 - srad * srad / glm::dot((arg->end.vertex - glm::vec4(lightPos, 1)), arg->end.vertex - glm::vec4(lightPos, 1)));
                 double omega = 2 * M_PI * (1-cos_a_max);
-                color.color += lightsSphere[i].GetColor() * lightsSphere[i].GetEmission() * float(wi * omega * M_1_PI);
+                color.color += lightsSphere[i].GetColor().color * lightsSphere[i].GetEmission() * float(wi * omega * M_1_PI);
             }
         }
     }

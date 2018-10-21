@@ -44,7 +44,7 @@ private:
     double reflectionCoefficient = 0.799; //color reflected from surface
     double refractionIndex = 1.51; //glass [1 (air) , 2.4 (diamond)]
     ReflectionType type;
-    float emission = 400; //Light emitted by lightsource
+    float emission = 100; //Light emitted by lightsource
     float roughness = 0; //Lambertian  reflector [0 , inf)
 
     Random rand;
