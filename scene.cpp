@@ -231,6 +231,7 @@ ColorDbl Scene::LaunchShadowRaysSphere(Ray* arg)
                 color.color += lightsSphere[i].GetColor().color * lightsSphere[i].GetEmission() * float(wi * omega * M_1_PI);
             }
         }
+        delete shadowRay;
     }
     return color;
 }
