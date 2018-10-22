@@ -5,6 +5,7 @@
 #ifndef RAY_TRACER_SCENE_H
 #define RAY_TRACER_SCENE_H
 
+#define GLM_ENABLE_EXPERIMENTAL
 #include "triangle.h"
 #include "tetrahedron.h"
 #include "sphere.h"

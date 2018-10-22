@@ -3,6 +3,7 @@
 //
 
 #include "scene.h"
+#define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/norm.inl>
 #include <glm/ext/scalar_constants.inl>
 #include <corecrt_math_defines.h>
