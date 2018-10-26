@@ -135,7 +135,7 @@ Scene::Scene()
     //infoTri->SetTriangle(tv, tv, tv, matLight);
     //Sphere ls(glm::vec4(5, 0, 3, 1), 0.5, infoTriLight);
 
-    SphereLightSource ls(glm::vec4(1, 0, 1, 1), 0.2);
+    SphereLightSource ls(glm::vec4(2, 0, 1, 3), 0.2);
     lightsSphere.push_back(ls);
     //SphereLightSource ls2(glm::vec4(-1.f, 1.f, 1.f, 1), 0.51);
     //ls2.color = white;
@@ -226,7 +226,7 @@ ColorDbl Scene::LaunchShadowRaysSphere(Ray* arg)
 
             if (wi > 0)
             {
-                double srad = 1.5;
+                double srad = lightsSphere[i].sphere.radius;
                 double cos_a_max = sqrt(1 - srad * srad / glm::dot((arg->end.vertex - glm::vec4(lightPos, 1)), arg->end.vertex - glm::vec4(lightPos, 1)));
                 double omega = 2 * M_PI * (1-cos_a_max);
                 color.color += lightsSphere[i].GetColor().color * lightsSphere[i].GetEmission() * float(wi * omega * M_1_PI);

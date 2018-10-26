@@ -26,7 +26,7 @@ public:
     Material(const ColorDbl& color, double reflection_coefficient, ReflectionType type);
 
     ///Return BRDF of specific material
-    ColorDbl Hit(Ray* arg, Scene* s);
+    ColorDbl Hit(Ray* arg, Scene* s, int it);
     ///Return reflected ray of specific material
     Ray* Reflect(Ray* arg, Scene* s);
 
@@ -40,11 +40,13 @@ private:
     ///Generates reflected ray of diffuse materail TODO: Not working as of. WIP
     Ray* DiffuseReflection(Ray* arg);
 
+    Ray* SpeccularReflection(Ray* arg);
+
     ColorDbl color;
-    double reflectionCoefficient = 0.799; //color reflected from surface
+    double reflectionCoefficient = 0.799;// 0.799; //color reflected from surface
     double refractionIndex = 1.51; //glass [1 (air) , 2.4 (diamond)]
     ReflectionType type;
-    float emission = 100; //Light emitted by lightsource
+    float emission = 200; //Light emitted by lightsource
     float roughness = 0; //Lambertian  reflector [0 , inf)
 
     Random rand;
