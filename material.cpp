@@ -26,7 +26,7 @@ Material::Material(const ColorDbl& color, double reflection_coefficient, Reflect
     this->type = type;
 }
 
-ColorDbl Material::Hit(Ray* arg, Scene* s)
+ColorDbl Material::Hit(Ray* arg, Scene* s, int it)
 {
     if (type == lambertian)
     {
@@ -51,7 +51,7 @@ ColorDbl Material::Hit(Ray* arg, Scene* s)
         float cos_d1_d2 = glm::dot(dir, shadowRayDir);
 
         ColorDbl c;
-        c.color = color.color / glm::pi<float>() * (A + (B * glm::max(0.f, cos_d1_d2)) * glm::sin(alpha) * glm::tan(beta));
+        c.color = color.color * (float)reflectionCoefficient / glm::pi<float>() * (A + (B * glm::max(0.f, cos_d1_d2)) * glm::sin(alpha) * glm::tan(beta));
         return c;
     }
     if (type == specular)
@@ -60,9 +60,16 @@ ColorDbl Material::Hit(Ray* arg, Scene* s)
         dir.dir = arg->end.vertex - arg->start.vertex;
         glm::vec3 newDir = glm::reflect(dir.dir, arg->hitTri->Normal.dir);
         arg->start.vertex = arg->end.vertex;
-        arg->end.vertex = arg->start.vertex + 2.0f * glm::vec4(newDir, 1.0f) - arg->start.vertex;
+        arg->end.vertex = arg->start.vertex + 100.0f * glm::vec4(newDir, 1.0f);
         s->FindInstersections(arg);
-        return arg->hitTri->material.Hit(arg, s);
+
+        if (it > 4)
+        {
+            ColorDbl c;
+            c.color = color.color * (float)reflectionCoefficient / glm::pi<float>();
+            return c;
+        }
+        return arg->hitTri->material.Hit(arg, s, ++it);
     }
     if(type == transparent)//Transparent, Snell's law
     {
@@ -70,15 +77,19 @@ ColorDbl Material::Hit(Ray* arg, Scene* s)
         dir.dir = arg->end.vertex - arg->start.vertex;
         glm::vec3 newDir = glm::refract(dir.dir, arg->hitTri->Normal.dir, float(1.f/ refractionIndex)); //From air(1.f) to glass (1.51f)
         arg->start.vertex = arg->end.vertex;
-        arg->end.vertex = arg->start.vertex + 2.0f * glm::vec4(newDir, 1.0f) - arg->start.vertex;
+        arg->end.vertex = arg->start.vertex + 100.0f * glm::vec4(newDir, 1.0f);
         s->FindInstersections(arg);
-        return arg->hitTri->material.Hit(arg, s);
+        if (it > 4)
+        {
+            ColorDbl c;
+            c.color = color.color * (float)reflectionCoefficient / glm::pi<float>();
+            return c;
+        }
+        return arg->hitTri->material.Hit(arg, s, ++it);
     }
     if(type == light)
     {
-        ColorDbl c;
-        c.color = color.color / glm::pi<float>();
-        return c;
+        return ColorDbl(1,1,1);
     }
 }
 

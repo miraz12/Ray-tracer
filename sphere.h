@@ -28,10 +28,10 @@ public:
     glm::vec3 GetPointOnSphere();
     ColorDbl GetColor();
     float GetEmission();
+    float radius;
 
 private:
     glm::vec4 center;
-    float radius;
     Triangle* infoTri;
     Random rand;
 };

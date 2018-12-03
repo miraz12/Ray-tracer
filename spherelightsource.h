@@ -20,9 +20,9 @@ public:
     glm::vec3 GetPointOnSphere();
     ColorDbl GetColor();
     float GetEmission();
+    Sphere sphere;
 
 private:
-    Sphere sphere; 
 };
 
 
